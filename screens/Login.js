@@ -64,7 +64,7 @@ class Login extends React.Component {
             } else {
               if (result.state == 1) {
                 try {
-                  await AsyncStorage.setItem('user', JSON.stringify(result.persona));
+                  await SecureStorage.setItem('user', JSON.stringify(result.persona));
                   this.setState({ isLogin: false });
                   this.props.addToken(JSON.stringify(result.persona));
                 } catch (error) {
