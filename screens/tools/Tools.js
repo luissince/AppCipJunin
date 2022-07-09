@@ -1,3 +1,7 @@
+export function sleep(time) {
+    return new Promise((resolve) => setTimeout(resolve, time));
+}
+
 export function formatMoney(amount, decimalCount = 2, decimal = ".", thousands = ",") {
     try {
         decimalCount = Math.abs(decimalCount);
@@ -117,7 +121,7 @@ export function getCurrentTime() {
     return formatted_time;
 }
 
-export function fetch_timeout(url, header = { method: 'GET' }, timeout = 20000) {
+export async function fetch_timeout(url, header = { method: 'GET' }, timeout = 20000) {
     let primiseTime = new Promise(function (resolve, reject) {
         setTimeout(() => {
             reject({ "state": 0, "message": "Tiempo de espera agotado, intente nuevamente en un par de minutos." });

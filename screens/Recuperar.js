@@ -20,7 +20,7 @@ import { fetch_timeout, validateEmail } from './tools/Tools';
 import { images, COLORS, FONTS, SIZES, URL } from '../constants';
 import { connect } from 'react-redux';
 
-class Credenciales extends React.Component {
+class Recuperar extends React.Component {
 
   constructor(props) {
     super(props);
@@ -36,8 +36,8 @@ class Credenciales extends React.Component {
     }
 
     this.props.navigation.setOptions({
-      title: 'Solicitar Credenciales',
-      headerTitle: 'Solicitar Credenciales',
+      title: 'Recuperar Contraseña',
+      headerTitle: 'Recuperar Contraseña',
       headerStyle: {
         backgroundColor: COLORS.primary,
       },
@@ -213,12 +213,12 @@ class Credenciales extends React.Component {
                   <>
                     {
                       !this.state.validData ?
-                        <Text style={{ ...FONTS.h4, color: COLORS.primary }}>INGRESE SUS DATOS</Text> : null
+                        <Text style={{ ...FONTS.h4, color: COLORS.primary, textAlign: 'center' }}>Si es ingeniero colegiado en el CIP CD Junín, ingrese su Colegiatura (CIP)</Text> : null
                     }
 
                     <View style={[css.inputContent, { width: 200 }]}>
                       <FontAwesome
-                        name="id-card"
+                        name="user-o"
                         color={COLORS.secondary}
                         size={20}
                       />
@@ -229,7 +229,7 @@ class Credenciales extends React.Component {
                         placeholderTextColor="#666666"
                         onChangeText={(text) => this.setState({ dni: text })}
                         style={css.inputText}
-                        placeholder="Ingrese su N° Dni "
+                        placeholder="Ingrese su N° CIP "
                         keyboardType="numeric"
                         onSubmitEditing={() => this.validDatos()} />
                       {
@@ -255,49 +255,11 @@ class Credenciales extends React.Component {
 
                     </View>
 
-                    <View style={[css.inputContent, { width: 200 }]}>
-                      <FontAwesome
-                        name="user-o"
-                        color={COLORS.secondary}
-                        size={20}
-                      />
-                      <TextInput
-                        ref={this.cipRef}
-                        value={this.state.cip}
-                        placeholderTextColor="#666666"
-                        onChangeText={(text) => this.setState({ cip: text })}
-                        style={css.inputText}
-                        placeholder="Ingrese su N° Cip"
-                        keyboardType="numeric"
-                        onSubmitEditing={() => this.validDatos()} />
-                      {
-                        this.state.cip !== "" ?
-                          <Animatable.View
-                            animation="bounceIn">
-                            <Feather
-                              name="check-circle"
-                              color={COLORS.primary}
-                              size={20}
-                            />
-                          </Animatable.View>
-                          :
-                          <Animatable.View
-                            animation="bounceIn">
-                            <Feather
-                              name="info"
-                              color={COLORS.gray}
-                              size={20}
-                            />
-                          </Animatable.View>
-                      }
-                    </View>
-
                     <TouchableOpacity
                       style={css.buttonPrimary}
                       onPress={() => this.validDatos()}>
                       <Text style={{ ...FONTS.h4, color: COLORS.white }}>ENVIAR</Text>
                     </TouchableOpacity>
-
                   </>
                   :
                   <>
@@ -483,4 +445,4 @@ const mapStateToProps = (state) => {
 }
 
 
-export default connect(mapStateToProps)(Credenciales);
+export default connect(mapStateToProps)(Recuperar);
