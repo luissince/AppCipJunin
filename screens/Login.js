@@ -83,7 +83,7 @@ class Login extends React.Component {
 
     try {
       await this.setStateAsync({ isLogin: true });
-
+ 
       let result = await fetch_timeout(URL.LOGIN_PERSONA, {
         method: "POST",
         headers: {

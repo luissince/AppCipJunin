@@ -1,29 +1,8 @@
-/**
- * DOMINIO PARA PRODUCCION HTTP
- */
-const DOMINIO_PRO_HTTPS = "https://www.intranet.cip-junin.org.pe/app/";
-
-/** 
- * DOMINIO PARA PRUEBAS
- */
-const DOMINIO_PRU = "http://192.168.1.40:8080/WebCipJunin/app/";
-
-/** 
- * API PERU DOLAR
- */
-const APIPERU_DOLAR = "https://api.apis.net.pe/v1/tipo-cambio-sunat";
-
-/**
- * EXTECIÓN PARA USO EN PRODUCCIÓN
- */
+import {  URLDOMINIO, APIPERU_DOLAR } from './config';
 
 const EXT_PRO = ".php";
 
-const EXT_DEV = "";
-
 const EXT = EXT_PRO;
-
-const URLDOMINIO = DOMINIO_PRU;
 
 export const LOGIN_PERSONA = URLDOMINIO + "api/login" + EXT;
 
