@@ -38,7 +38,7 @@ class App extends React.Component {
 
   async componentDidMount() {
     try {
-      await sleep(3000);
+      await sleep(4000);
       let userToken = await AsyncStorage.getItem('user');
       this.props.restore(userToken);
     } catch (e) {

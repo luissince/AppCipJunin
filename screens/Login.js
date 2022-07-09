@@ -179,7 +179,7 @@ class Login extends React.Component {
                 this.state.isLogin ?
                   <View style={{ alignItems: 'center' }}>
                     <ActivityIndicator size="large" color={COLORS.primary} />
-                    <Text style={{ ...FONTS.h3 }}>Validando datos...</Text>
+                    <Text style={{ ...FONTS.h4 }}>Validando datos...</Text>
                   </View>
                   : null
               }

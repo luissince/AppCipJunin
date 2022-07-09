@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 import { StyleSheet, View, Text, StatusBar, ScrollView, Image, SafeAreaView, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { COLORS, SIZES, icons, FONTS, URL } from '../constants';
 import { getDateFormaMMYY } from "./tools/Tools";
@@ -143,6 +144,7 @@ class ConfirmarPago extends React.Component {
             });
 
             let result = await response.json();
+
             if (result.state == 1) {
                 this.props.navigation.navigate('RespuestaPago', {
                     "state": 1,

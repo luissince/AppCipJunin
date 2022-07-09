@@ -18,6 +18,7 @@ export const COLORS = {
   yellow: '#E09B07',
   green: "#61ab5e"
 };
+
 export const SIZES = {
   // global sizes
   base: 8,
@@ -32,6 +33,7 @@ export const SIZES = {
   h3: 17,
   h4: 15,
   h5: 13,
+
   // app dimensions
   width,
   height,

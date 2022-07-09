@@ -6,7 +6,7 @@ const DOMINIO_PRO_HTTPS = "https://www.intranet.cip-junin.org.pe/app/";
 /** 
  * DOMINIO PARA PRUEBAS
  */
-const DOMINIO_PRU = "http://192.168.0.108/WebCipJunin/app/";
+const DOMINIO_PRU = "http://192.168.1.40:8080/WebCipJunin/app/";
 
 /** 
  * API PERU DOLAR
@@ -23,7 +23,7 @@ const EXT_DEV = "";
 
 const EXT = EXT_PRO;
 
-const URLDOMINIO = DOMINIO_PRO_HTTPS;
+const URLDOMINIO = DOMINIO_PRU;
 
 export const LOGIN_PERSONA = URLDOMINIO + "api/login" + EXT;
 

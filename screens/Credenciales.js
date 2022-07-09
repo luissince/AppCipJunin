@@ -316,6 +316,7 @@ class Credenciales extends React.Component {
                         autoFocus={true}
                         ref={this.passwordRef}
                         value={this.state.password}
+                        autoCapitalize="none"
                         onChangeText={(text) => this.setState({ password: text })}
                         style={css.inputText}
                         placeholder="Ingrese su contraseña."
@@ -353,6 +354,7 @@ class Credenciales extends React.Component {
                         ref={this.emailRef}
                         value={this.state.email}
                         placeholderTextColor="#666666"
+                        autoCapitalize="none"
                         onChangeText={(text) => this.setState({ email: text })}
                         style={css.inputText}
                         placeholder="Ingrese su correo electrónico."
