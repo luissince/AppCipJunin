@@ -693,7 +693,6 @@ const styles = StyleSheet.create({
   itemContenedor: {
     width: '100%',
     flexDirection: 'column',
-    padding: SIZES.padding,
     marginBottom: 10
   },
   itemDetalle: {
