@@ -54,7 +54,7 @@ class Perfil extends React.Component {
           vista:
             (<View style={styles.itemBox}>
 
-              <View style={styles.itemContenedor, [{ borderBottomColor: '#D6D5D5', borderBottomWidth: 1, }]}>
+              <View style={[styles.itemContenedor, { borderBottomColor: '#D6D5D5', borderBottomWidth: 1, }]}>
                 <View style={styles.itemDetalle}>
                   <View style={styles.itemText}>
                     <Text style={{ ...FONTS.h4, color: COLORS.secondary, textAlign: 'center' }}>COLEGIATURA</Text>
@@ -75,7 +75,7 @@ class Perfil extends React.Component {
           vista:
             (<View style={styles.itemBox}>
 
-              <View style={styles.itemContenedor, [{ borderBottomColor: '#D6D5D5', borderBottomWidth: 1, }]}>
+              <View style={[styles.itemContenedor, { borderBottomColor: '#D6D5D5', borderBottomWidth: 1, }]}>
                 <View style={styles.itemDetalle}>
                   <View style={styles.itemText}>
                     <Text style={{ ...FONTS.h4, color: COLORS.secondary, textAlign: 'center' }}>DIRECCIÓN</Text>
@@ -96,7 +96,7 @@ class Perfil extends React.Component {
           vista:
             (<View style={styles.itemBox}>
 
-              <View style={styles.itemContenedor, [{ borderBottomColor: '#D6D5D5', borderBottomWidth: 1, }]}>
+              <View style={[styles.itemContenedor, { borderBottomColor: '#D6D5D5', borderBottomWidth: 1, }]}>
                 <View style={styles.itemDetalle}>
                   <View style={styles.itemText}>
                     <Text style={{ ...FONTS.h4, color: COLORS.secondary, textAlign: 'center' }}>TELEFONO</Text>
@@ -117,7 +117,7 @@ class Perfil extends React.Component {
           vista:
             (<View style={styles.itemBox}>
 
-              <View style={styles.itemContenedor, [{ borderBottomColor: '#D6D5D5', borderBottomWidth: 1, }]}>
+              <View style={[styles.itemContenedor, { borderBottomColor: '#D6D5D5', borderBottomWidth: 1, }]}>
                 <View style={styles.itemDetalle}>
                   <View style={styles.itemText}>
                     <Text style={{ ...FONTS.h4, color: COLORS.secondary, textAlign: 'center' }}>CORREO Y WEB</Text>
@@ -193,7 +193,7 @@ class Perfil extends React.Component {
               result.colegiatura.map((item, index) => {
                 return (<View key={index} style={styles.itemBox}>
 
-                  <View style={styles.itemContenedor, [{ borderBottomColor: '#D6D5D5', borderBottomWidth: 1, }]}>
+                  <View style={[styles.itemContenedor, { borderBottomColor: '#D6D5D5', borderBottomWidth: 1, }]}>
                     <View style={styles.itemDetalle}>
                       <View style={styles.itemText}>
                         <Text style={{ ...FONTS.h4, color: COLORS.secondary, textAlign: 'center' }}>COLEGIATURA</Text>
@@ -201,7 +201,7 @@ class Perfil extends React.Component {
                     </View>
                   </View>
 
-                  <View style={styles.itemContenedor, [{ borderBottomColor: '#D6D5D5', borderBottomWidth: 1, }]}>
+                  <View style={[styles.itemContenedor, { borderBottomColor: '#D6D5D5', borderBottomWidth: 1, }]}>
                     <View style={styles.itemDetalle}>
                       <View style={styles.itemText}>
                         <Text style={{ ...FONTS.h4, color: COLORS.grayLight }}>SEDE:</Text>
@@ -212,7 +212,7 @@ class Perfil extends React.Component {
                     </View>
                   </View>
 
-                  <View style={styles.itemContenedor, [{ borderBottomColor: '#D6D5D5', borderBottomWidth: 1, }]}>
+                  <View style={[styles.itemContenedor, { borderBottomColor: '#D6D5D5', borderBottomWidth: 1, }]}>
                     <View style={styles.itemDetalle}>
                       <View style={styles.itemText}>
                         <Text style={{ ...FONTS.h4, color: COLORS.grayLight }}>CAPÍTULO:</Text>
@@ -223,7 +223,7 @@ class Perfil extends React.Component {
                     </View>
                   </View>
 
-                  <View style={styles.itemContenedor, [{ borderBottomColor: '#D6D5D5', borderBottomWidth: 1, }]}>
+                  <View style={[styles.itemContenedor, { borderBottomColor: '#D6D5D5', borderBottomWidth: 1, }]}>
                     <View style={styles.itemDetalle}>
                       <View style={styles.itemText}>
                         <Text style={{ ...FONTS.h4, color: COLORS.grayLight }}>ESPECIALIDAD:</Text>
@@ -234,7 +234,7 @@ class Perfil extends React.Component {
                     </View>
                   </View>
 
-                  <View style={styles.itemContenedor, [{ borderBottomColor: '#D6D5D5', borderBottomWidth: 1, }]}>
+                  <View style={[styles.itemContenedor, { borderBottomColor: '#D6D5D5', borderBottomWidth: 1, }]}>
                     <View style={styles.itemDetalle}>
                       <View style={styles.itemText}>
                         <Text style={{ ...FONTS.h4, color: COLORS.grayLight }}>FECHA COLEGIADO:</Text>
@@ -245,7 +245,7 @@ class Perfil extends React.Component {
                     </View>
                   </View>
 
-                  <View style={styles.itemContenedor, [{ borderBottomColor: '#D6D5D5', borderBottomWidth: 1, }]}>
+                  <View style={[styles.itemContenedor, { borderBottomColor: '#D6D5D5', borderBottomWidth: 1, }]}>
                     <View style={styles.itemDetalle}>
                       <View style={styles.itemText}>
                         <Text style={{ ...FONTS.h4, color: COLORS.grayLight }}>UNIVERSIDAD DE EGRESO:</Text>
@@ -256,7 +256,7 @@ class Perfil extends React.Component {
                     </View>
                   </View>
 
-                  <View style={styles.itemContenedor, [{ borderBottomColor: '#D6D5D5', borderBottomWidth: 1, }]}>
+                  <View style={[styles.itemContenedor, { borderBottomColor: '#D6D5D5', borderBottomWidth: 1, }]}>
                     <View style={styles.itemDetalle}>
                       <View style={styles.itemText}>
                         <Text style={{ ...FONTS.h4, color: COLORS.grayLight }}>FECHA DE EGRESO:</Text>
@@ -267,7 +267,7 @@ class Perfil extends React.Component {
                     </View>
                   </View>
 
-                  <View style={styles.itemContenedor, [{ borderBottomColor: '#D6D5D5', borderBottomWidth: 1, }]}>
+                  <View style={[styles.itemContenedor, { borderBottomColor: '#D6D5D5', borderBottomWidth: 1, }]}>
                     <View style={styles.itemDetalle}>
                       <View style={styles.itemText}>
                         <Text style={{ ...FONTS.h4, color: COLORS.grayLight }}>UNIVERSIDAD DE TITULACIÓN:</Text>
@@ -278,7 +278,7 @@ class Perfil extends React.Component {
                     </View>
                   </View>
 
-                  <View style={styles.itemContenedor, [{ borderBottomColor: '#D6D5D5', borderBottomWidth: 1, }]}>
+                  <View style={[styles.itemContenedor, { borderBottomColor: '#D6D5D5', borderBottomWidth: 1, }]}>
                     <View style={styles.itemDetalle}>
                       <View style={styles.itemText}>
                         <Text style={{ ...FONTS.h4, color: COLORS.grayLight }}>FECHA TITULACIÓN:</Text>
@@ -289,7 +289,7 @@ class Perfil extends React.Component {
                     </View>
                   </View>
 
-                  <View style={styles.itemContenedor, [{ borderBottomColor: '#D6D5D5', borderBottomWidth: 0, }]}>
+                  <View style={[styles.itemContenedor, { borderBottomColor: '#D6D5D5', borderBottomWidth: 0, }]}>
                     <View style={styles.itemDetalle}>
                       <View style={styles.itemText}>
                         <Text style={{ ...FONTS.h4, color: COLORS.grayLight }}>RESOLUCIÓN:</Text>
@@ -312,7 +312,7 @@ class Perfil extends React.Component {
                 return (
                   <View key={index} style={styles.itemBox}>
 
-                    <View style={styles.itemContenedor, [{ borderBottomColor: '#D6D5D5', borderBottomWidth: 1, }]}>
+                    <View style={[styles.itemContenedor, { borderBottomColor: '#D6D5D5', borderBottomWidth: 1, }]}>
                       <View style={styles.itemDetalle}>
                         <View style={styles.itemText}>
                           <Text style={{ ...FONTS.h4, color: COLORS.secondary, textAlign: 'center' }}>DOMICILIO</Text>
@@ -320,7 +320,7 @@ class Perfil extends React.Component {
                       </View>
                     </View>
 
-                    <View style={styles.itemContenedor, [{ borderBottomColor: '#D6D5D5', borderBottomWidth: 1, }]}>
+                    <View style={[styles.itemContenedor, { borderBottomColor: '#D6D5D5', borderBottomWidth: 1, }]}>
                       <View style={styles.itemDetalle}>
                         <View style={styles.itemText}>
                           <Text style={{ ...FONTS.h4, color: COLORS.grayLight }}>TIPO:</Text>
@@ -331,7 +331,7 @@ class Perfil extends React.Component {
                       </View>
                     </View>
 
-                    <View style={styles.itemContenedor, [{ borderBottomColor: '#D6D5D5', borderBottomWidth: 1, }]}>
+                    <View style={[styles.itemContenedor, { borderBottomColor: '#D6D5D5', borderBottomWidth: 1, }]}>
                       <View style={styles.itemDetalle}>
                         <View style={styles.itemText}>
                           <Text style={{ ...FONTS.h4, color: COLORS.grayLight }}>DIRECCIÓN:</Text>
@@ -342,7 +342,7 @@ class Perfil extends React.Component {
                       </View>
                     </View>
 
-                    <View style={styles.itemContenedor, [{ borderBottomColor: '#D6D5D5', borderBottomWidth: 0, }]}>
+                    <View style={[styles.itemContenedor, { borderBottomColor: '#D6D5D5', borderBottomWidth: 0, }]}>
                       <View style={styles.itemDetalle}>
                         <View style={styles.itemText}>
                           <Text style={{ ...FONTS.h4, color: COLORS.grayLight }}>UBIGEO:</Text>
@@ -364,7 +364,7 @@ class Perfil extends React.Component {
                 return (
                   <View key={index} style={styles.itemBox}>
 
-                    <View style={styles.itemContenedor, [{ borderBottomColor: '#D6D5D5', borderBottomWidth: 1, }]}>
+                    <View style={[styles.itemContenedor, { borderBottomColor: '#D6D5D5', borderBottomWidth: 1, }]}>
                       <View style={styles.itemDetalle}>
                         <View style={styles.itemText}>
                           <Text style={{ ...FONTS.h4, color: COLORS.secondary, textAlign: 'center' }}>TELEFONO</Text>
@@ -372,7 +372,7 @@ class Perfil extends React.Component {
                       </View>
                     </View>
 
-                    <View style={styles.itemContenedor, [{ borderBottomColor: '#D6D5D5', borderBottomWidth: 1, }]}>
+                    <View style={[styles.itemContenedor, { borderBottomColor: '#D6D5D5', borderBottomWidth: 1, }]}>
                       <View style={styles.itemDetalle}>
                         <View style={styles.itemText}>
                           <Text style={{ ...FONTS.h4, color: COLORS.grayLight }}>TIPO:</Text>
@@ -383,7 +383,7 @@ class Perfil extends React.Component {
                       </View>
                     </View>
 
-                    <View style={styles.itemContenedor, [{ borderBottomColor: '#D6D5D5', borderBottomWidth: 1, }]}>
+                    <View style={[styles.itemContenedor, { borderBottomColor: '#D6D5D5', borderBottomWidth: 1, }]}>
                       <View style={styles.itemDetalle}>
                         <View style={styles.itemText}>
                           <Text style={{ ...FONTS.h4, color: COLORS.grayLight }}>NÚMERO:</Text>
@@ -406,7 +406,7 @@ class Perfil extends React.Component {
                 return (
                   <View key={index} style={styles.itemBox}>
 
-                    <View style={styles.itemContenedor, [{ borderBottomColor: '#D6D5D5', borderBottomWidth: 1, }]}>
+                    <View style={[styles.itemContenedor, { borderBottomColor: '#D6D5D5', borderBottomWidth: 1, }]}>
                       <View style={styles.itemDetalle}>
                         <View style={styles.itemText}>
                           <Text style={{ ...FONTS.h4, color: COLORS.secondary, textAlign: 'center' }}>CORREO Y WEB</Text>
@@ -414,7 +414,7 @@ class Perfil extends React.Component {
                       </View>
                     </View>
 
-                    <View style={styles.itemContenedor, [{ borderBottomColor: '#D6D5D5', borderBottomWidth: 1, }]}>
+                    <View style={[styles.itemContenedor, { borderBottomColor: '#D6D5D5', borderBottomWidth: 1, }]}>
                       <View style={styles.itemDetalle}>
                         <View style={styles.itemText}>
                           <Text style={{ ...FONTS.h4, color: COLORS.grayLight }}>TIPO:</Text>
@@ -425,7 +425,7 @@ class Perfil extends React.Component {
                       </View>
                     </View>
 
-                    <View style={styles.itemContenedor, [{ borderBottomColor: '#D6D5D5', borderBottomWidth: 1, }]}>
+                    <View style={[styles.itemContenedor, { borderBottomColor: '#D6D5D5', borderBottomWidth: 1, }]}>
                       <View style={styles.itemDetalle}>
                         <View style={styles.itemText}>
                           <Text style={{ ...FONTS.h4, color: COLORS.grayLight }}>DIRECCIÓN:</Text>
@@ -524,7 +524,7 @@ class Perfil extends React.Component {
                   {/* INFORMACIÓN GENERAL */}
                   <View style={{ paddingHorizontal: SIZES.padding, marginBottom: SIZES.padding }}>
                     <View style={styles.itemBox}>
-                      <View style={styles.itemContenedor, [{ borderBottomColor: '#D6D5D5', borderBottomWidth: 1, }]}>
+                      <View style={[styles.itemContenedor, { borderBottomColor: '#D6D5D5', borderBottomWidth: 1, }]}>
                         <View style={styles.itemDetalle}>
                           <View style={styles.itemText}>
                             <Text style={{ ...FONTS.h4, color: COLORS.secondary, textAlign: 'center' }}>INFORMACIÓN GENERAL</Text>
@@ -532,7 +532,7 @@ class Perfil extends React.Component {
                         </View>
                       </View>
 
-                      <View style={styles.itemContenedor, [{ borderBottomColor: '#D6D5D5', borderBottomWidth: 1, }]}>
+                      <View style={[styles.itemContenedor, { borderBottomColor: '#D6D5D5', borderBottomWidth: 1, }]}>
                         <View style={styles.itemDetalle}>
                           <View style={styles.itemText}>
                             <Text style={{ ...FONTS.h4, color: COLORS.grayLight }}>N° CIP:</Text>
@@ -543,7 +543,7 @@ class Perfil extends React.Component {
                         </View>
                       </View>
 
-                      <View style={styles.itemContenedor, [{ borderBottomColor: '#D6D5D5', borderBottomWidth: 1, }]}>
+                      <View style={[styles.itemContenedor, { borderBottomColor: '#D6D5D5', borderBottomWidth: 1, }]}>
                         <View style={styles.itemDetalle}>
                           <View style={styles.itemText}>
                             <Text style={{ ...FONTS.h4, color: COLORS.grayLight }}>Condición:</Text>
@@ -554,7 +554,7 @@ class Perfil extends React.Component {
                         </View>
                       </View>
 
-                      <View style={styles.itemContenedor, [{ borderBottomColor: '#D6D5D5', borderBottomWidth: 1, }]}>
+                      <View style={[styles.itemContenedor, { borderBottomColor: '#D6D5D5', borderBottomWidth: 1, }]}>
                         <View style={styles.itemDetalle}>
                           <View style={styles.itemText}>
                             <Text style={{ ...FONTS.h4, color: COLORS.grayLight }}>DNI:</Text>
@@ -565,7 +565,7 @@ class Perfil extends React.Component {
                         </View>
                       </View>
 
-                      <View style={styles.itemContenedor, [{ borderBottomColor: '#D6D5D5', borderBottomWidth: 1, }]}>
+                      <View style={[styles.itemContenedor, { borderBottomColor: '#D6D5D5', borderBottomWidth: 1, }]}>
                         <View style={styles.itemDetalle}>
                           <View style={styles.itemText}>
                             <Text style={{ ...FONTS.h4, color: COLORS.grayLight }}>Apellidos:</Text>
@@ -576,7 +576,7 @@ class Perfil extends React.Component {
                         </View>
                       </View>
 
-                      <View style={styles.itemContenedor, [{ borderBottomColor: '#D6D5D5', borderBottomWidth: 1, }]}>
+                      <View style={[styles.itemContenedor, { borderBottomColor: '#D6D5D5', borderBottomWidth: 1, }]}>
                         <View style={styles.itemDetalle}>
                           <View style={styles.itemText}>
                             <Text style={{ ...FONTS.h4, color: COLORS.grayLight }}>Nombres:</Text>
@@ -587,7 +587,7 @@ class Perfil extends React.Component {
                         </View>
                       </View>
 
-                      <View style={styles.itemContenedor, [{ borderBottomColor: '#D6D5D5', borderBottomWidth: 1, }]}>
+                      <View style={[styles.itemContenedor, { borderBottomColor: '#D6D5D5', borderBottomWidth: 1, }]}>
                         <View style={styles.itemDetalle}>
                           <View style={styles.itemText}>
                             <Text style={{ ...FONTS.h4, color: COLORS.grayLight }}>Fecha de Nacimiento:</Text>
@@ -598,7 +598,7 @@ class Perfil extends React.Component {
                         </View>
                       </View>
 
-                      <View style={styles.itemContenedor, [{ borderBottomColor: '#D6D5D5', borderBottomWidth: 0, }]}>
+                      <View style={[styles.itemContenedor, { borderBottomColor: '#D6D5D5', borderBottomWidth: 0, }]}>
                         <View style={styles.itemDetalle}>
                           <View style={styles.itemText}>
                             <Text style={{ ...FONTS.h4, color: COLORS.grayLight }}>Sexo:</Text>
