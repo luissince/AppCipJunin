@@ -41,6 +41,7 @@ class Home extends React.Component {
       token: JSON.parse(this.props.token.userToken),
       refreshing: false,
     }
+    console.log(URL.INFORMACION_PERSONA)
   }
 
   onEventCloseSession = async () => {
