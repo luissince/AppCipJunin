@@ -14,11 +14,10 @@ import {
     Button
 } from 'react-native';
 import SelectDropdown from 'react-native-select-dropdown';
-import DateTimePicker from '@react-native-community/datetimepicker';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-
+import DatePicker from 'react-native-date-picker';
 import { COLORS, SIZES, icons, FONTS, URL, images } from '../constants';
-import { fetch_timeout, formatMoney } from "./tools/Tools";
+import { fetch_timeout, formatMoney , getDateForma,getCurrentDate} from "./tools/Tools";
 import { connect } from 'react-redux';
 
 class UpdateInfo extends React.Component {
@@ -47,7 +46,8 @@ class UpdateInfo extends React.Component {
                 { "id": "M", "nombreSexo": "Masculino" },
                 { "id": "F", "nombreSexo": "Femenino" }
             ],
-            fechaNacimiento: "2022-07-11",
+            fechaNacimiento: new Date(Date.now()),
+            fechaNacimientoText: getDateForma(getCurrentDate()),
 
             datePicker: false
         }
@@ -67,6 +67,7 @@ class UpdateInfo extends React.Component {
                 flex: 1,
             }
         });
+        console.log();
     }
 
     componentDidMount() {
@@ -140,12 +141,16 @@ class UpdateInfo extends React.Component {
     }
 
     showDatePicker = () => {
-        this.setState({datePicker: true});
+        this.setState({ datePicker: true });
     };
-    
+
+    hideDatePicker = () => {
+        this.setState({ datePicker: false });
+    };
 
     onDateSelected = (event) => {
-        this.setState({datePicker: false, fechaNacimiento: event.target.value});
+        console.log(event)
+        this.setState({ datePicker: false });
     };
 
     render() {
@@ -302,34 +307,61 @@ class UpdateInfo extends React.Component {
                                     </View>
                                 </View>
 
-                                <View style={{ padding: 10, }}>
+                                <View style={{ padding: 10 }}>
                                     <Text style={{ ...FONTS.h4, color: COLORS.secondary }}>Fecha de Nacimiento</Text>
                                     <View style={{ flexDirection: 'row' }}>
-
-                                        { this.state.datePicker && (
-                                            <DateTimePicker
-                                                mode={'date'}
-                                                display={Platform.OS === 'ios' ? 'spinner' : 'default'}
-                                                is24Hour={true}
-                                                value={this.state.fechaNacimiento}
-                                                onChange={(event) => this.onDateSelected(event)}
-                                                style={styles.datePicker}
+                                        <View style={styles.input}>
+                                            {/* {this.state.datePicker && (
+                                                <DateTimePicker
+                                                    testID='dateTimePicker'
+                                                    value={this.state.fechaNacimiento}
+                                                    mode={"date"}
+                                                    is24Hour={true}
+                                                    display={"default"}
+                                                    onChange={(event,date) => {
+                                                        console.log(date)
+                                                        let current =new Date(date);
+                                                        console.log(current)
+                                                    }}
+                                                />
+                                            )} */}
+                                            <DatePicker
+                                                modal
+                                                title={"Fecha de Nacimiento"}
+                                                cancelText={"Cerrar"}
+                                                confirmText={"Aceptar"}
+                                                mode='date'
+                                                open={this.state.datePicker}
+                                                date={this.state.fechaNacimiento}
+                                                locale={"es"}
+                                                onConfirm={(date) => {
+                                                    this.hideDatePicker();
+                                                    let current = new Date(date.getFullYear(),date.getMonth(),date.getDate(),0,0,0,0);
+                                                
+                                                    this.setState({
+                                                        fechaNacimiento: current,
+                                                        fechaNacimientoText: getDateForma(current.getFullYear()+"-"+(current.getMonth()+1)+"-"+current.getDate())
+                                                    });
+                                                }}
+                                                onCancel={() => {
+                                                    this.hideDatePicker();
+                                                }}
                                             />
-                                        )}
 
-                                        { !this.state.datePicker && (
-                                            <View style={{ margin: 10 }}>
-                                                <Button title="Cambiar" color="green" onPress={() => this.showDatePicker()} />
-                                            </View>
-                                        )}
-
-                                        <Text style={styles.text}>{this.state.fechaNacimiento}</Text>
-
+                                            <TouchableOpacity style={{ width: '100%' }}
+                                                onPress={() => this.showDatePicker()}>
+                                                <View style={{ flexDirection: 'row' }}>
+                                                    <Icon
+                                                        name="calendar"
+                                                        color={COLORS.secondary}
+                                                        size={20}
+                                                    />
+                                                    <Text style={{ marginLeft: 10, ...FONTS.body4, color: COLORS.black }}>{this.state.fechaNacimientoText}</Text>
+                                                </View>
+                                            </TouchableOpacity>
+                                        </View>
                                     </View>
                                 </View>
-
-                                {/* --- */}
-
                             </View>
                         </ScrollView>
                     </View>
@@ -381,7 +413,7 @@ const styles = StyleSheet.create({
         padding: 3,
         marginBottom: 10,
         textAlign: 'center'
-      },
+    },
     // Style for iOS ONLY...
     datePicker: {
         justifyContent: 'center',
