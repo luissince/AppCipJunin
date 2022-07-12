@@ -20,6 +20,7 @@ import CargarTarjeta from './CargarTarjeta';
 import DocumentoPago from './DocumentoPago';
 import PagoCertHabilidad from './PagoCertHabilidad';
 import RestaurarClave from './RestaurarClave';
+import UpdateInfo from './UpdateInfo';
 
 export {
     Login,
@@ -43,5 +44,6 @@ export {
     DocumentoPago,
     PagoCertHabilidad,
     RestaurarClave,
-    Recuperar
+    Recuperar,
+    UpdateInfo
 };

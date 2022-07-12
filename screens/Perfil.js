@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
   RefreshControl,
 } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome5';
 import { fetch_timeout } from './tools/Tools';
 import { COLORS, SIZES, icons, FONTS, images, URL } from '../constants';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -464,6 +465,10 @@ class Perfil extends React.Component {
     this.setState({ buttonTabs: newArray });
   }
 
+  onEventUpdateInfo = () => {
+    this.props.navigation.navigate('UpdateInfo')
+}
+
   render() {
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.lightGray }}>
@@ -478,6 +483,15 @@ class Perfil extends React.Component {
             <Text style={{ ...FONTS.h3, marginLeft: 5 }}>
               Perfil
             </Text>
+          </View>
+
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <TouchableOpacity onPress={() => this.onEventUpdateInfo()} style={{ flexDirection: 'row' }}>
+              <Icon
+                name="pen"
+                size={24}
+                color="#000000" />
+            </TouchableOpacity>
           </View>
         </View>
 

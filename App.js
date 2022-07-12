@@ -18,7 +18,8 @@ import {
   DocumentoPago,
   PagoCertHabilidad,
   RestaurarClave,
-  Recuperar
+  Recuperar,
+  UpdateInfo
 } from './screens';
 import Tabs from './navigation/tabs';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
@@ -85,6 +86,7 @@ class App extends React.Component {
                     <Stack.Screen name="CargarTarjeta" component={CargarTarjeta} />
                     <Stack.Screen name="DocumentoPago" component={DocumentoPago} />
                     <Stack.Screen name="PagoCertHabilidad" component={PagoCertHabilidad} />
+                    <Stack.Screen name="UpdateInfo" component={UpdateInfo} />
                   </>
                 )
             }
