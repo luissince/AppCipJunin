@@ -41,7 +41,12 @@ class Home extends React.Component {
       token: JSON.parse(this.props.token.userToken),
       refreshing: false,
     }
-    console.log(URL.INFORMACION_PERSONA)
+  }
+
+  setStateAsync(state) {
+    return new Promise((resolve) => {
+      this.setState(state, resolve);
+    });
   }
 
   onEventCloseSession = async () => {
@@ -57,23 +62,25 @@ class Home extends React.Component {
     this.loadInformacion();
   }
 
-  loadInformacion() {
-    this.setState({ isLoading: false, reload: false, message: 'Cargando información...' });
-    fetch_timeout(URL.INFORMACION_PERSONA, {
-      method: "POST",
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        "idDni": this.state.token.idDNI,
-        "mes": 0,
-        "yearCurrentView": "",
-        "monthCurrentView": ""
-      })
-    }, 10000).then(result => {
+  async loadInformacion() {
+    try {
+      await this.setStateAsync({ isLoading: false, reload: false, message: 'Cargando información...' });
+      let result = await fetch_timeout(URL.INFORMACION_PERSONA, {
+        method: "POST",
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          "idDni": this.state.token.idDNI,
+          "mes": 0,
+          "yearCurrentView": "",
+          "monthCurrentView": ""
+        })
+      }, 10000);
+
       if (result.state == 0) {
-        this.setState({
+        await this.setStateAsync({
           isLoading: false,
           message: result.message,
           reload: true
@@ -81,7 +88,7 @@ class Home extends React.Component {
       } else {
         if (result.state == 1) {
           this.props.addEmail(result.email);
-          this.setState({
+          await this.setStateAsync({
             isLoading: true,
             reload: false,
             estado: 1,
@@ -98,7 +105,7 @@ class Home extends React.Component {
             deuda: result.deuda
           });
         } else {
-          this.setState({
+          await this.setStateAsync({
             isLoading: true,
             message: result.message,
             estado: result.state,
@@ -106,7 +113,14 @@ class Home extends React.Component {
           });
         }
       }
-    });
+    } catch (error) {
+      await this.setStateAsync({
+        isLoading: true,
+        message: "Se genero un problema, intente nuevamente en un par de minutos.",
+        estado: 0,
+        reload: false
+      });
+    }
   }
 
   renderNotice() {

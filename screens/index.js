@@ -11,7 +11,6 @@ import Contactenos from './Contactenos';
 import ContactenosLogin from './ContactenosLogin';
 import Credenciales from './Credenciales';
 import Servicios from './Servicios';
-import Recuperar from './Recuperar';
 import CrediCars from './CrediCars';
 import PagoCuota from './PagoCuota';
 import ConfirmarPago from './ConfirmarPago';
@@ -44,6 +43,5 @@ export {
     DocumentoPago,
     PagoCertHabilidad,
     RestaurarClave,
-    Recuperar,
     UpdateInfo
 };

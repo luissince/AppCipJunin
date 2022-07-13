@@ -18,7 +18,6 @@ import {
   DocumentoPago,
   PagoCertHabilidad,
   RestaurarClave,
-  Recuperar,
   UpdateInfo
 } from './screens';
 import Tabs from './navigation/tabs';
@@ -65,7 +64,6 @@ class App extends React.Component {
                   <Stack.Screen name="Credenciales" component={Credenciales} />
                   <Stack.Screen name="ContactenosLogin" component={ContactenosLogin} />
                   <Stack.Screen name="RestaurarClave" component={RestaurarClave} />
-                  <Stack.Screen name="Recuperar" component={Recuperar} />
                 </>
               ) :
                 (

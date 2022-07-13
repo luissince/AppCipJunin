@@ -144,7 +144,7 @@ class Login extends React.Component {
   }
 
   async eventOpenRecuperar() {
-    this.props.navigation.navigate("Recuperar")
+    this.props.navigation.navigate("RestaurarClave")
   }
 
   render() {

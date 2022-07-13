@@ -133,6 +133,12 @@ class Perfil extends React.Component {
 
   }
 
+  setStateAsync(state) {
+    return new Promise((resolve) => {
+      this.setState(state, resolve);
+    });
+  }
+
   onEventCloseSession = async () => {
     try {
       await AsyncStorage.removeItem('user');
@@ -150,32 +156,34 @@ class Perfil extends React.Component {
     this.loadInformacion();
   }
 
-  onRefresh() {
-    this.setState({ refreshing: true });
-    this.setState({ refreshing: false });
+  async onRefresh() {
+    await this.setStateAsync({ refreshing: true, refreshing: false });
     this.loadInformacion();
   }
 
-  loadInformacion() {
-    this.setState({ isLoading: true, reload: false, message: 'Cargando información...', });
-    fetch_timeout(URL.PERFIL_PERSONA, {
-      method: "POST",
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        "idDni": this.state.token.idDNI,
-      })
-    }, 6000).then(result => {
+  async loadInformacion() {   
+    try {
+      await this.setStateAsync({ isLoading: true, reload: false, message: 'Cargando información...', });
+
+      let result = await fetch_timeout(URL.PERFIL_PERSONA, {
+        method: "POST",
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          "idDni": this.state.token.idDNI,
+        })
+      }, 6000);
+
       if (result.state == 0) {
-        this.setState({
+        await this.setStateAsync({
           reload: true,
           message: result.message
         });
       } else {
         if (result.state == 1) {
-          this.setState({
+          await this.setStateAsync({
             isLoading: false,
             reload: false,
             cip: result.persona.CIP,
@@ -443,18 +451,23 @@ class Perfil extends React.Component {
             );
           }
 
-          this.setState({ buttonTabs: newArray });
+          await this.setStateAsync({ buttonTabs: newArray });
         } else {
-          this.setState({
+          await this.setStateAsync({
             reload: true,
             message: result.message
           });
         }
       }
-    });
+    } catch (error) {
+      await this.setStateAsync({
+        reload: true,
+        message: "Se genero un problema, intente nuevamente en un par de minutos."
+      });
+    }
   }
 
-  selectFocust(id, index) {
+  async selectFocust(id, index) {
     let newArray = this.state.buttonTabs.map((item) => {
       item.select = false;
       return item;
@@ -462,12 +475,12 @@ class Perfil extends React.Component {
     if (newArray[index].id == id) {
       newArray[index].select = true;
     }
-    this.setState({ buttonTabs: newArray });
+    await this.setStateAsync({ buttonTabs: newArray });
   }
 
   onEventUpdateInfo = () => {
     this.props.navigation.navigate('UpdateInfo')
-}
+  }
 
   render() {
     return (

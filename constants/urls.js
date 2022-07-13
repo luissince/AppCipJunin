@@ -20,6 +20,16 @@ export const INFORMACION_PERSONA = URLDOMINIO + "api/informacion" + EXT;
 
 export const PERFIL_PERSONA = URLDOMINIO + "api/perfil" + EXT;
 
+export const OBTENER_PERSONA = URLDOMINIO + "api/getperfil" + EXT;
+
+export const ACTUALIZAR_PERSONA = URLDOMINIO + "api/actperfil" + EXT;
+
+export const VALIDAR_CIP_PERSONA = URLDOMINIO + "api/valcipperfil" + EXT;
+
+export const VALIDAR_TOKEN_PERSONA = URLDOMINIO + "api/valcodperfil" + EXT;
+
+export const VALIDAR_SAVE_PERSONA = URLDOMINIO + "api/valsaveperfil" + EXT;
+
 export const PAGOS_CUOTAS = URLDOMINIO + "api/cuotas" + EXT;
 
 export const PAGOS_CERTHABILIDAD = URLDOMINIO + "api/certhabilidading" + EXT;
@@ -46,6 +56,11 @@ export default {
   CERT_PROYECTO_PERSONA,
   INFORMACION_COLEGIO,
   LISTA_COMPROBANTES,
+  OBTENER_PERSONA,
+  ACTUALIZAR_PERSONA,
+  VALIDAR_CIP_PERSONA,
+  VALIDAR_TOKEN_PERSONA,
+  VALIDAR_SAVE_PERSONA,
   APIPERU_DOLAR,
   DOMINIO
 }

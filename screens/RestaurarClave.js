@@ -12,26 +12,36 @@ import {
     Alert,
     ActivityIndicator
 } from 'react-native';
+import axios from 'axios';
+import Feather from 'react-native-vector-icons/Feather';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import * as Animatable from 'react-native-animatable';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { fetch_timeout, validateEmail } from './tools/Tools';
-import { images, COLORS, FONTS, SIZES, icons, URL } from '../constants';
+import { images, COLORS, FONTS, SIZES, URL } from '../constants';
 import { connect } from 'react-redux';
 
-class RestaurarClave extends React.Component {
+class RecuperarClave extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
             idDNI: '',
             cip: '',
-            validData: false,
-            register: false,
-            validPassword: false,
+            idToken: '',
+            code: '',
             password: '',
-            email: ''
+
+            validData: false,
+            validCip: true,
+            validToken: false,
+            validPassword: false,
+            message: '',
         }
+
         this.props.navigation.setOptions({
-            title: 'Restaurar Clave',
-            headerTitle: 'Restaurar Clave',
+            title: 'Recuperar Contraseña',
+            headerTitle: 'Recuperar Contraseña',
             headerStyle: {
                 backgroundColor: COLORS.primary,
             },
@@ -45,237 +55,424 @@ class RestaurarClave extends React.Component {
                 flex: 1,
             }
         });
-        this.cipRef = React.createRef();
 
-        this.passwordRef = React.createRef();
-        this.emailRef = React.createRef();
+        this.cipRef = React.createRef();
+        this.tokenRef = React.createRef();
+        this.claveRef = React.createRef();
+    }
+
+    setStateAsync(state) {
+        return new Promise((resolve) => {
+            this.setState(state, resolve);
+        });
     }
 
     componentDidMount() {
 
     }
 
-    async validDatos() {
+    async validCip() {
         if (this.state.validData) {
             return;
         }
-        if (this.state.cip.trim().length == 0) {
-            Alert.alert("Validar", "Ingrese los datos requeridos");
-            this.cipRef.current.focus();
-        } else {
-            if (this.state.dni.trim().length == 0) {
-                this.dniRef.current.focus();
-            } else if (this.state.cip.trim().length == 0) {
-                this.cipRef.current.focus();
-            } else {
-                try {
-                    this.setState({ validData: true });
-                    let result = await fetch_timeout(URL.REGISTER_PERSONA, {
-                        method: "POST",
-                        headers: {
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            "type": "valid",
-                            "dni": this.state.dni.trim(),
-                            "cip": this.state.cip.trim()
-                        })
-                    });
-                    if (result.state == 1) {
-                        let user = result.user;
-                        this.setState({ idDNI: user.idDNI, validData: false, register: true }, () => {
-                            this.passwordRef.current.focus();
-                        });
-                    } else {
-                        Alert.alert("Validar", result.message);
-                        this.setState({ validData: false });
-                    }
-                } catch (error) {
-                    this.setState({ validData: false });
-                    Alert.alert("Validar", error);
-                }
+
+        if (this.state.cip.length == '') {
+            Alert.alert("Restaurar Clave", "Ingrese su n° Cip.");
+            this.claveRef.current.focus();
+            return;
+        }
+
+        try {
+            await this.setStateAsync({ validData: true, message: "Procesando datos..." });
+
+            let result = await axios.post(URL.VALIDAR_CIP_PERSONA, {
+                "cip": this.state.cip
+            });
+        
+            await this.setStateAsync({
+                validData: false,
+                validCip: false,
+                validToken: true,
+                idDNI: result.data.user.idDNI,
+                idToken: result.data.token
+            });
+        } catch (error) {
+            if(error.response){
+                Alert.alert("Resturar Clave", error.response.data);
+            }else{
+                Alert.alert("Resturar Clave", "Se produjo un error interno, intente nuevamente en un par de minutos.");
             }
+            await this.setStateAsync({
+                validData: false
+            });
         }
     }
 
-    async validPassword() {
-        if (this.state.validPassword) {
+    async validToken() {
+        if (this.state.validData) {
             return;
         }
-        if (this.state.password.trim().length == 0 && this.state.email.trim().length == 0) {
-            Alert.alert("Guardar", "Ingrese los datos requeridos");
-            this.passwordRef.current.focus();
-        } else {
-            if (this.state.password.trim().length == 0) {
-                this.passwordRef.current.focus();
-            } else if (!validateEmail(this.state.email.trim())) {
-                this.emailRef.current.focus();
-            } else {
-                try {
-                    this.setState({ validPassword: true });
-                    let result = await fetch_timeout(URL.REGISTER_PERSONA, {
-                        method: "POST",
-                        headers: {
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            "type": "save",
-                            "idDNI": this.state.idDNI,
-                            "password": this.state.password.trim(),
-                            "email": this.state.email.trim()
-                        })
-                    });
-                    if (result.state == 1) {
-                        Alert.alert("Guardar", result.message, [{ text: "OK", onPress: () => this.props.navigation.navigate("Login") }]);
 
-                    } else {
-                        Alert.alert("Guardar", result.message);
-                        this.setState({ validPassword: false });
-                    }
-                } catch (error) {
-                    this.setState({ validPassword: false });
-                    Alert.alert("Guardar", error);
-                }
+        if (this.state.code.length == '') {
+            Alert.alert("Restaurar Clave", "Ingrese el código de verificación.");
+            this.tokenRef.current.focus();
+            return;
+        }
+
+        try {
+            await this.setStateAsync({ validData: true, message: "Validando código..." });
+            
+            await axios.post(URL.VALIDAR_TOKEN_PERSONA, {
+                "code": this.state.code,
+                "idToken": this.state.idToken
+            });
+            
+            await this.setStateAsync({
+                validData: false,
+                validCip: false,
+                validToken: false,
+                validPassword: true
+            });
+        } catch (error) {
+            if(error.response){
+                Alert.alert("Resturar Clave", error.response.data);
+            }else{
+                Alert.alert("Resturar Clave", "Se produjo un error interno, intente nuevamente en un par de minutos.");
             }
+            await this.setStateAsync({
+                validData: false
+            });
+        }
+    }
+
+    async savePassword() {
+        if (this.state.validData) {
+            return;
+        }
+
+
+        if (this.state.password.length == '') {
+            Alert.alert("Restaurar Clave", "Ingrese su nueva contraseña.");
+            this.tokenRef.current.focus();
+            return;
+        }
+
+        try {
+            await this.setStateAsync({ validData: true, message: "Validando código..." });
+
+            let result = await axios.post(URL.VALIDAR_SAVE_PERSONA, {
+                "password": this.state.password,
+                "idDNI": this.state.idDNI
+            });
+            
+            await this.setStateAsync({
+                validData: false,
+                validCip: false,
+                validToken: false,
+                validPassword: true
+            });
+
+            Alert.alert("Resturar Clave", result.data,[
+                { text: "OK", onPress: () =>  this.props.navigation.navigate("Login") }
+            ]);
+        } catch (error) {
+            if(error.response){
+                Alert.alert("Resturar Clave", error.response.data);
+            }else{
+                Alert.alert("Resturar Clave", "Se produjo un error interno, intente nuevamente en un par de minutos.");
+            }
+            await this.setStateAsync({
+                validData: false
+            });
         }
     }
 
     render() {
         return (
-            <View style={css.container}>
-                <StatusBar barStyle="light-content" backgroundColor={COLORS.statusbar} />
-                <ImageBackground source={images.fondoLogin} style={css.image}>
-                    <ScrollView keyboardShouldPersistTaps='handled'>
+            <ImageBackground
+                source={images.fondoLogin}
+                style={css.imageBackground}>
 
-                        <View style={{ flex: 1 }}>
-                            <View style={{
-                                alignItems: 'center',
-                                marginBottom: 10,
-                                marginTop: SIZES.height * 0.1
-                            }}>
-                                <Image source={images.logoCIPColor} style={{ width: 120, height: 120 }} />
-                            </View>
+                <SafeAreaView style={css.safeAreaView}>
+                    <StatusBar barStyle="light-content" backgroundColor={COLORS.statusbar} />
 
-                            <View>
-                                <Text style={{ ...FONTS.text_tittle, marginBottom: 60 }}>
-                                    COLEGIO DE INGENIEROS DEL PERÚ
-                                </Text>
-                            </View>
+                    <ScrollView
+                        contentContainerStyle={css.scrollView}
+                        keyboardShouldPersistTaps='handled'>
+
+                        <View style={css.content}>
+                            {/* SECCCIÓN DEL HEADER */}
+                            <Image
+                                source={images.logoCIPColor}
+                                style={css.logo}
+                            />
+
+                            <Text style={{ ...FONTS.text_tittle, marginBottom: 20 }}>
+                                CONSEJO DEPARTAMENTAL DE JUNÍN
+                            </Text>
+                            {/*  */}
 
                             {
                                 this.state.validData ?
-                                    <View style={{ alignItems: 'center' }}>
+                                    <View style={{ alignItems: 'center', marginBottom: 10 }}>
                                         <ActivityIndicator size="large" color={COLORS.primary} />
-                                        <Text style={{ ...FONTS.h3 }}>Validando datos...</Text>
+                                        <Text style={{ ...FONTS.h3 }}>{this.state.message}</Text>
                                     </View>
                                     : null
                             }
-                            {
-                                this.state.validPassword ?
-                                    <View style={{ alignItems: 'center' }}>
-                                        <ActivityIndicator size="large" color={COLORS.primary} />
-                                        <Text style={{ ...FONTS.h3 }}>Guardando datos...</Text>
-                                    </View>
-                                    : null
-                            }
-                            {
-                                !this.state.register ?
-                                    <View style={{ flexDirection: 'column', alignItems: 'center' }}>
-                                        <View style={{ width: '100%', alignItems: 'center', paddingHorizontal: 10, paddingVertical: 5 }}>
-                                            {
-                                                !this.state.validData ?
-                                                    <>
-                                                        <Text style={{ ...FONTS.h3, textAlign: 'center' }}>Recupera tu cuenta</Text>
-                                                        <Text style={{ ...FONTS.h4, textAlign: 'center' }}>Si es ingeniero colegiado en el CIP CD Junín, ingrese su Colegiatura (CIP)</Text>
-                                                    </>
-                                                    : null
-                                            }
-                                        </View>
 
-                                        <View style={{ paddingHorizontal: 20, }}>
-                                            <TextInput ref={this.cipRef} value={this.state.cip} onChangeText={(text) => this.setState({ cip: text })}
-                                                style={css.input}
-                                                placeholder="Ingrese su N° Cip"
+                            {
+                                this.state.validCip ?
+                                    <>
+                                        <Text style={{
+                                            ...FONTS.h4,
+                                            color: COLORS.primary,
+                                            textAlign: 'center'
+                                        }}>
+                                            Si es ingeniero colegiado en el CIP CD Junín, ingrese su Colegiatura (CIP)
+                                        </Text>
+
+                                        <View style={[css.inputContent, { width: 200 }]}>
+                                            <FontAwesome
+                                                name="user-o"
+                                                color={COLORS.secondary}
+                                                size={20}
+                                            />
+                                            <TextInput
+                                                autoFocus={true}
+                                                ref={this.cipRef}
+                                                value={this.state.dni}
+                                                placeholderTextColor="#666666"
+                                                onChangeText={(text) => this.setState({ cip: text })}
+                                                style={css.inputText}
+                                                placeholder="Ingrese su N° CIP "
                                                 keyboardType="numeric"
-                                                onSubmitEditing={() => this.validDatos()} />
-                                        </View>
-
-                                        <View style={css.buttonContent}>
-                                            <TouchableOpacity style={css.buttonStyle} onPress={() => this.validDatos()}>
-                                                <Text style={{ ...FONTS.h4, color: COLORS.white }}>ENVIAR</Text>
-                                            </TouchableOpacity>
-                                        </View>
-
-
-                                    </View>
-                                    :
-                                    <View style={{ flexDirection: 'column', alignItems: 'center' }}>
-                                        <View style={{ width: '100%', alignItems: 'center', paddingHorizontal: 10, paddingVertical: 5 }}>
+                                                onSubmitEditing={() => this.validCip()} />
                                             {
-                                                !this.state.validPassword ?
-                                                    <Text style={{ ...FONTS.h3, textAlign: 'center' }}>Registrar su contraseña.</Text> : null
+                                                this.state.cip !== "" ?
+                                                    <Animatable.View
+                                                        animation="bounceIn">
+                                                        <Feather
+                                                            name="check-circle"
+                                                            color={COLORS.primary}
+                                                            size={20}
+                                                        />
+                                                    </Animatable.View>
+                                                    :
+                                                    <Animatable.View
+                                                        animation="bounceIn">
+                                                        <Feather
+                                                            name="info"
+                                                            color={COLORS.gray}
+                                                            size={20}
+                                                        />
+                                                    </Animatable.View>
                                             }
-                                        </View>
-                                        <View style={{ paddingHorizontal: 20, }}>
-                                            <TextInput autoFocus={true} ref={this.passwordRef} value={this.state.password} onChangeText={(text) => this.setState({ password: text })}
-                                                style={css.input}
-                                                placeholder="Ingrese su contraseña."
-                                                onSubmitEditing={() => this.validPassword()} />
+
                                         </View>
 
-                                        <View style={{ paddingHorizontal: 20, }}>
-                                            <TextInput ref={this.emailRef} value={this.state.email} onChangeText={(text) => this.setState({ email: text })}
-                                                style={css.input}
-                                                placeholder="Ingrese su correo electrónico."
-                                                onSubmitEditing={() => this.validPassword()} />
-                                        </View>
+                                        <TouchableOpacity
+                                            style={css.buttonPrimary}
+                                            onPress={() => this.validCip()}>
+                                            <Text style={{ ...FONTS.h4, color: COLORS.white }}>ENVIAR</Text>
+                                        </TouchableOpacity>
+                                    </>
+                                    :
+                                    this.state.validToken ?
+                                        <>
+                                            <Text style={{
+                                                ...FONTS.h4,
+                                                color: COLORS.primary,
+                                                textAlign: 'center'
+                                            }}>
+                                                Ingresa el código de verificación que fue enviado a tu correo electrónico previamente registrado.
+                                            </Text>
 
-                                        <View style={css.buttonContent}>
-                                            <TouchableOpacity style={css.buttonStyle} onPress={() => this.validPassword()}>
+                                            <View style={[css.inputContent, { width: 200 }]}>
+                                                <FontAwesome
+                                                    name="arrow-right"
+                                                    color={COLORS.secondary}
+                                                    size={20}
+                                                />
+                                                <TextInput
+                                                    ref={this.tokenRef}
+                                                    value={this.state.dni}
+                                                    placeholderTextColor="#666666"
+                                                    onChangeText={(text) => this.setState({ code: text })}
+                                                    style={css.inputText}
+                                                    placeholder="Ingrese su código de verificación."
+                                                    keyboardType="numeric"
+                                                    onSubmitEditing={() => this.validToken()} />
+                                                {
+                                                    this.state.code !== "" ?
+                                                        <Animatable.View
+                                                            animation="bounceIn">
+                                                            <Feather
+                                                                name="check-circle"
+                                                                color={COLORS.primary}
+                                                                size={20}
+                                                            />
+                                                        </Animatable.View>
+                                                        :
+                                                        <Animatable.View
+                                                            animation="bounceIn">
+                                                            <Feather
+                                                                name="info"
+                                                                color={COLORS.gray}
+                                                                size={20}
+                                                            />
+                                                        </Animatable.View>
+                                                }
+
+                                            </View>
+
+                                            <TouchableOpacity
+                                                style={css.buttonPrimary}
+                                                onPress={() => this.validToken()}>
+                                                <Text style={{ ...FONTS.h4, color: COLORS.white }}>VALIDAR</Text>
+                                            </TouchableOpacity>
+                                        </>
+                                        :
+                                        <>
+                                            <Text style={{
+                                                ...FONTS.h4,
+                                                color: COLORS.primary,
+                                                textAlign: 'center'
+                                            }}>
+                                                Ingresa su nueva contraseña.
+                                            </Text>
+
+                                            <View style={[css.inputContent, { width: 200 }]}>
+                                                <FontAwesome
+                                                    name="lock"
+                                                    color={COLORS.secondary}
+                                                    size={20}
+                                                />
+                                                <TextInput
+                                                    ref={this.claveRef}
+                                                    value={this.state.dni}
+                                                    placeholderTextColor="#666666"
+                                                    onChangeText={(text) => this.setState({ password: text })}
+                                                    style={css.inputText}
+                                                    autoCapitalize="none"
+                                                    placeholder="Ingresa su nueva contraseña."
+                                                    onSubmitEditing={() => this.savePassword()} />
+                                                {
+                                                    this.state.password !== "" ?
+                                                        <Animatable.View
+                                                            animation="bounceIn">
+                                                            <Feather
+                                                                name="check-circle"
+                                                                color={COLORS.primary}
+                                                                size={20}
+                                                            />
+                                                        </Animatable.View>
+                                                        :
+                                                        <Animatable.View
+                                                            animation="bounceIn">
+                                                            <Feather
+                                                                name="info"
+                                                                color={COLORS.gray}
+                                                                size={20}
+                                                            />
+                                                        </Animatable.View>
+                                                }
+
+                                            </View>
+
+                                            <TouchableOpacity
+                                                style={css.buttonPrimary}
+                                                onPress={() => this.savePassword()}>
                                                 <Text style={{ ...FONTS.h4, color: COLORS.white }}>GUARDAR</Text>
                                             </TouchableOpacity>
-                                        </View>
-                                    </View>
+                                        </>
                             }
                         </View>
                     </ScrollView>
-                </ImageBackground>
-            </View>
+                </SafeAreaView>
+
+            </ImageBackground>
         );
     }
 }
 
 const css = StyleSheet.create({
-    container: {
+    safeAreaView: {
+        flex: 1
+    },
+    scrollView: {
+        flexGrow: 1,
+        alignItems: 'center',
+    },
+    content: {
         flex: 1,
-        backgroundColor: COLORS.white,
-        flexDirection: 'column',
-    },
-    image: {
-        flex: 1,
-        resizeMode: 'cover',
-    },
-    input: {
-        width: 240,
-        height: 40,
-        margin: 12,
-        borderBottomWidth: 2,
-        borderBottomColor: '#C1BFBF',
-        paddingLeft: 10,
-    },
-    buttonContent: {
-        paddingTop: 15,
         alignItems: 'center',
         justifyContent: 'center',
+        flexDirection: 'column',
+        padding: 20
     },
-    buttonStyle: {
+    imageBackground: {
+        flex: 1,
+        width: '100%',
+        height: '100%',
+        resizeMode: 'cover',
+    },
+    logo: {
+        width: 120,
+        height: 120,
+        marginBottom: 10,
+    },
+    inputContent: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginTop: 10,
+        borderBottomWidth: 1,
+        borderBottomColor: COLORS.grayLight,
+        marginBottom: 10
+    },
+    inputText: {
+        flex: 1,
+        height: 40,
+        paddingLeft: 10,
+        borderBottomWidth: 0,
+        borderBottomColor: 'transparent',
+        ...FONTS.p
+    },
+    buttonPrimary: {
+        marginVertical: 20,
+        alignItems: 'center',
+        justifyContent: 'center',
         borderBottomLeftRadius: 10,
         borderTopRightRadius: 10,
         backgroundColor: COLORS.primary,
         paddingVertical: 8,
-        paddingHorizontal: 30
+        paddingHorizontal: 30,
+    },
+    marginVertical10: {
+        marginVertical: 10,
+    },
+    footerContent: {
+        paddingVertical: 20,
+        flexDirection: 'row',
+    },
+    footerIntent: {
+        width: '50%',
+        alignItems: 'center'
+    },
+    footerButton: {
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    footerImagen: {
+        width: 12,
+        height: 12,
+        marginHorizontal: 10,
+        resizeMode: 'stretch',
+    },
+    footerText: {
+        ...FONTS.h4,
+        fontWeight: 'bold'
     }
 });
 
@@ -285,4 +482,5 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps)(RestaurarClave);
+
+export default connect(mapStateToProps)(RecuperarClave);
