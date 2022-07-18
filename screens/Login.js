@@ -11,8 +11,8 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   Alert,
-  Linking,
-  StatusBar
+  StatusBar,
+  Keyboard
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import * as Animatable from 'react-native-animatable';
@@ -82,6 +82,8 @@ class Login extends React.Component {
     }
 
     try {
+      Keyboard.dismiss();
+      
       await this.setStateAsync({ isLogin: true });
  
       let result = await fetch_timeout(URL.LOGIN_PERSONA, {

@@ -1,9 +1,9 @@
 import React from 'react';
 import { Image, Text, View, StyleSheet, SafeAreaView, StatusBar, FlatList, TouchableOpacity, ActivityIndicator, Alert } from 'react-native';
-import { COLORS, SIZES, icons, FONTS, URL, images } from '../constants';
-import { formatMoney } from "./tools/Tools";
+import { COLORS, icons, FONTS, URL, images } from '../../constants';
+import { formatMoney } from "../tools/Tools";
 import { connect } from 'react-redux';
-import ChechBox from './components/CheckBox';
+import ChechBox from '../components/CheckBox';
 
 class PagoCuota extends React.Component {
 

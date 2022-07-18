@@ -30,6 +30,8 @@ export const VALIDAR_TOKEN_PERSONA = URLDOMINIO + "api/valcodperfil" + EXT;
 
 export const VALIDAR_SAVE_PERSONA = URLDOMINIO + "api/valsaveperfil" + EXT;
 
+export const VALIDAR_HABILIDAD_PERSONA = URLDOMINIO + "api/valhabiperfil" + EXT;
+
 export const PAGOS_CUOTAS = URLDOMINIO + "api/cuotas" + EXT;
 
 export const PAGOS_CERTHABILIDAD = URLDOMINIO + "api/certhabilidading" + EXT;
@@ -61,6 +63,7 @@ export default {
   VALIDAR_CIP_PERSONA,
   VALIDAR_TOKEN_PERSONA,
   VALIDAR_SAVE_PERSONA,
+  VALIDAR_HABILIDAD_PERSONA,
   APIPERU_DOLAR,
   DOMINIO
 }

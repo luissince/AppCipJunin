@@ -16,11 +16,11 @@ import {
 import RNFetchBlob from 'rn-fetch-blob';
 import Share from 'react-native-share';
 import FileViewer from 'react-native-file-viewer';
-import { fetch_timeout } from './tools/Tools';
-import { COLORS, SIZES, icons, FONTS, URL } from '../constants';
+import { formatMoney, fetch_timeout } from '../tools/Tools';
+import { COLORS, SIZES, icons, FONTS, URL } from '../../constants';
 import { connect } from 'react-redux';
 
-class CertObra extends React.Component {
+class Comprobantes extends React.Component {
 
   constructor(props) {
     super(props);
@@ -34,8 +34,8 @@ class CertObra extends React.Component {
     }
 
     this.props.navigation.setOptions({
-      title: 'Cert. Obra',
-      headerTitle: 'Cert. Obra',
+      title: 'Comprobantes',
+      headerTitle: 'Comprobantes',
       headerStyle: {
         backgroundColor: COLORS.primary,
       },
@@ -54,9 +54,9 @@ class CertObra extends React.Component {
     this.loadCuentas();
   }
 
-  loadCuentas() {
-    this.setState({ message: 'Cargando certificado...', refreshing: true });
-    fetch_timeout(URL.CERT_OBRA_PERSONA, {
+  async loadCuentas() {
+    this.setState({ message: 'Cargando comprobantes...', refreshing: true });
+    fetch_timeout(URL.INGRESOS_PERSONA, {
       method: "POST",
       headers: {
         'Accept': 'application/json',
@@ -65,7 +65,7 @@ class CertObra extends React.Component {
       body: JSON.stringify({
         "idDni": this.state.token.idDNI,
       })
-    }, 10000).then(result => {
+    }).then(result => {
       if (result.state == 0) {
         this.setState({
           message: result.message,
@@ -93,10 +93,10 @@ class CertObra extends React.Component {
   }
 
   async sendToShare(item) {
-    let fileName = "Certificado De Obra  N°-" + item.Numero;
+    let fileName = item.Comprobante + " " + item.Serie + "-" + item.NumRecibo;
     let filePath = Platform.OS === 'ios' ? RNFetchBlob.fs.dirs.DocumentDir : RNFetchBlob.fs.dirs.DownloadDir;
     let path = filePath + "/" + fileName + ".pdf";
-    let fileUrl = URL.DOMINIO + 'sunat/pdfCertObraView.php?idIngreso=' + item.idIngreso;
+    let fileUrl = URL.DOMINIO + 'sunat/pdfingresos.php?idIngreso=' + item.idIngreso;
     let config = Platform.OS === 'ios' ? {
       fileCache: true,
       path: path,
@@ -179,6 +179,8 @@ class CertObra extends React.Component {
             }
           } catch (error) {
             this.setState({ generate: false });
+          } finally {
+            this.setState({ generate: false });
           }
         } else {
           Alert.alert('Permiso Denegado!', 'Debe otorgar permiso de almacenamiento para descargar el archivo.');
@@ -192,10 +194,10 @@ class CertObra extends React.Component {
   }
 
   async dowloadPdf(item) {
-    let fileName = "Certificado De Obra  N°-" + item.Numero;
+    let fileName = item.Comprobante + " " + item.Serie + "-" + item.NumRecibo;
     let filePath = Platform.OS === 'ios' ? RNFetchBlob.fs.dirs.DocumentDir : RNFetchBlob.fs.dirs.DownloadDir;
     let path = filePath + "/" + fileName + ".pdf";
-    let fileUrl = URL.DOMINIO + 'sunat/pdfCertObraView.php?idIngreso=' + item.idIngreso;
+    let fileUrl = URL.DOMINIO + 'sunat/pdfingresos.php?idIngreso=' + item.idIngreso;
     let config = Platform.OS === 'ios' ? {
       fileCache: true,
       path: path,
@@ -256,13 +258,13 @@ class CertObra extends React.Component {
         <View style={styles.contenedorTitulo}>
           <View style={{ marginRight: 10 }}>
             <Image
-              source={icons.certObra}
+              source={icons.cuenta}
               resizeMode='contain'
               style={styles.itemIcon} />
           </View>
           <View>
             <Text style={{ fontWeight: 'bold' }}>
-              Lista de Certificados de Obra
+              Lista de Comprobantes
             </Text>
           </View>
         </View>
@@ -305,21 +307,21 @@ class CertObra extends React.Component {
 
                         <View style={styles.cabecera}>
                           <Text style={{ ...FONTS.h4, color: COLORS.white, fontWeight: 'bold' }}>
-                            N°- de Certificado
+                            {item.Comprobante}
                           </Text>
                           <Text style={{ ...FONTS.h4, color: COLORS.white, fontWeight: 'bold' }}>
-                            {item.Numero}
+                            {item.Serie + "-" + item.NumRecibo}
                           </Text>
                         </View>
 
                         <View style={{ flexDirection: 'row' }}>
                           <View style={{ width: '70%' }}>
                             <View style={{ paddingHorizontal: 10, paddingVertical: 5 }}>
-                              <Text style={{ ...FONTS.p, fontWeight: 'normal' }}>Fecha Creación: {item.Fecha}</Text>
+                              <Text style={{ ...FONTS.p, fontWeight: 'normal' }}>Fecha: {item.Fecha}</Text>
                             </View>
 
                             <View style={{ paddingHorizontal: 10, paddingVertical: 5 }}>
-                              <Text style={{ ...FONTS.h5 }}>Vigencia Hasta: {item.HastaFecha}</Text>
+                              <Text style={{ ...FONTS.p }}>Importe: S/ {formatMoney(item.Total)}</Text>
                             </View>
                           </View>
 
@@ -426,4 +428,4 @@ const mapStateToProps = (state) => {
 }
 
 
-export default connect(mapStateToProps)(CertObra);
+export default connect(mapStateToProps)(Comprobantes);

@@ -1,5 +1,4 @@
 import React from 'react';
-import { NativeModules } from 'react-native';
 import {
   StyleSheet,
   View,
@@ -15,14 +14,13 @@ import {
   Platform
 } from 'react-native';
 import RNFetchBlob from 'rn-fetch-blob';
-// import RNFS from 'react-native-fs';
 import Share from 'react-native-share';
 import FileViewer from 'react-native-file-viewer';
-import { formatMoney, fetch_timeout } from './tools/Tools';
-import { COLORS, SIZES, icons, FONTS, URL } from '../constants';
+import { fetch_timeout } from '../tools/Tools';
+import { COLORS, SIZES, icons, FONTS, URL } from '../../constants';
 import { connect } from 'react-redux';
 
-class EstadoCuenta extends React.Component {
+class CertObra extends React.Component {
 
   constructor(props) {
     super(props);
@@ -36,8 +34,8 @@ class EstadoCuenta extends React.Component {
     }
 
     this.props.navigation.setOptions({
-      title: 'Comprobantes',
-      headerTitle: 'Comprobantes',
+      title: 'Cert. Obra',
+      headerTitle: 'Cert. Obra',
       headerStyle: {
         backgroundColor: COLORS.primary,
       },
@@ -56,9 +54,9 @@ class EstadoCuenta extends React.Component {
     this.loadCuentas();
   }
 
-  async loadCuentas() {
-    this.setState({ message: 'Cargando comprobantes...', refreshing: true });
-    fetch_timeout(URL.INGRESOS_PERSONA, {
+  loadCuentas() {
+    this.setState({ message: 'Cargando certificado...', refreshing: true });
+    fetch_timeout(URL.CERT_OBRA_PERSONA, {
       method: "POST",
       headers: {
         'Accept': 'application/json',
@@ -67,7 +65,7 @@ class EstadoCuenta extends React.Component {
       body: JSON.stringify({
         "idDni": this.state.token.idDNI,
       })
-    }).then(result => {
+    }, 10000).then(result => {
       if (result.state == 0) {
         this.setState({
           message: result.message,
@@ -95,10 +93,10 @@ class EstadoCuenta extends React.Component {
   }
 
   async sendToShare(item) {
-    let fileName = item.Comprobante + " " + item.Serie + "-" + item.NumRecibo;
+    let fileName = "Certificado De Obra  N°-" + item.Numero;
     let filePath = Platform.OS === 'ios' ? RNFetchBlob.fs.dirs.DocumentDir : RNFetchBlob.fs.dirs.DownloadDir;
     let path = filePath + "/" + fileName + ".pdf";
-    let fileUrl = URL.DOMINIO + 'sunat/pdfingresos.php?idIngreso=' + item.idIngreso;
+    let fileUrl = URL.DOMINIO + 'sunat/pdfCertObraView.php?idIngreso=' + item.idIngreso;
     let config = Platform.OS === 'ios' ? {
       fileCache: true,
       path: path,
@@ -181,8 +179,6 @@ class EstadoCuenta extends React.Component {
             }
           } catch (error) {
             this.setState({ generate: false });
-          } finally {
-            this.setState({ generate: false });
           }
         } else {
           Alert.alert('Permiso Denegado!', 'Debe otorgar permiso de almacenamiento para descargar el archivo.');
@@ -196,10 +192,10 @@ class EstadoCuenta extends React.Component {
   }
 
   async dowloadPdf(item) {
-    let fileName = item.Comprobante + " " + item.Serie + "-" + item.NumRecibo;
+    let fileName = "Certificado De Obra  N°-" + item.Numero;
     let filePath = Platform.OS === 'ios' ? RNFetchBlob.fs.dirs.DocumentDir : RNFetchBlob.fs.dirs.DownloadDir;
     let path = filePath + "/" + fileName + ".pdf";
-    let fileUrl = URL.DOMINIO + 'sunat/pdfingresos.php?idIngreso=' + item.idIngreso;
+    let fileUrl = URL.DOMINIO + 'sunat/pdfCertObraView.php?idIngreso=' + item.idIngreso;
     let config = Platform.OS === 'ios' ? {
       fileCache: true,
       path: path,
@@ -260,13 +256,13 @@ class EstadoCuenta extends React.Component {
         <View style={styles.contenedorTitulo}>
           <View style={{ marginRight: 10 }}>
             <Image
-              source={icons.cuenta}
+              source={icons.certObra}
               resizeMode='contain'
               style={styles.itemIcon} />
           </View>
           <View>
             <Text style={{ fontWeight: 'bold' }}>
-              Lista de Comprobantes
+              Lista de Certificados de Obra
             </Text>
           </View>
         </View>
@@ -309,21 +305,21 @@ class EstadoCuenta extends React.Component {
 
                         <View style={styles.cabecera}>
                           <Text style={{ ...FONTS.h4, color: COLORS.white, fontWeight: 'bold' }}>
-                            {item.Comprobante}
+                            N°- de Certificado
                           </Text>
                           <Text style={{ ...FONTS.h4, color: COLORS.white, fontWeight: 'bold' }}>
-                            {item.Serie + "-" + item.NumRecibo}
+                            {item.Numero}
                           </Text>
                         </View>
 
                         <View style={{ flexDirection: 'row' }}>
                           <View style={{ width: '70%' }}>
                             <View style={{ paddingHorizontal: 10, paddingVertical: 5 }}>
-                              <Text style={{ ...FONTS.p, fontWeight: 'normal' }}>Fecha: {item.Fecha}</Text>
+                              <Text style={{ ...FONTS.p, fontWeight: 'normal' }}>Fecha Creación: {item.Fecha}</Text>
                             </View>
 
                             <View style={{ paddingHorizontal: 10, paddingVertical: 5 }}>
-                              <Text style={{ ...FONTS.p }}>Importe: S/ {formatMoney(item.Total)}</Text>
+                              <Text style={{ ...FONTS.h5 }}>Vigencia Hasta: {item.HastaFecha}</Text>
                             </View>
                           </View>
 
@@ -430,4 +426,4 @@ const mapStateToProps = (state) => {
 }
 
 
-export default connect(mapStateToProps)(EstadoCuenta);
+export default connect(mapStateToProps)(CertObra);

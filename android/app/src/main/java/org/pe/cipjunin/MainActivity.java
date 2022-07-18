@@ -1,4 +1,4 @@
-package com.appcipjunin;
+package org.pe.cipjunin;
 
 import com.facebook.react.ReactActivity;
 

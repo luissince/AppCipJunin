@@ -11,11 +11,12 @@ import {
     TouchableOpacity,
     Alert
 } from 'react-native';
-import { fetch_timeout, formatMoney } from "./tools/Tools";
-import { COLORS, SIZES, icons, FONTS, URL } from '../constants';
+import { fetch_timeout, formatMoney } from "../tools/Tools";
+import { COLORS, SIZES, icons, FONTS, URL } from '../../constants';
 import { connect } from 'react-redux';
 
 class CargarTarjeta extends React.Component {
+    
     constructor(props) {
         super(props);
         this.state = {

@@ -12,11 +12,11 @@ import {
   ActivityIndicator,
   ImageBackground
 } from 'react-native';
-import { COLORS, SIZES, icons, FONTS, images, URL } from '../constants';
-import { formatMoney, getDateFormaMMYY, fetch_timeout } from './tools/Tools';
+import { COLORS, SIZES, icons, FONTS, images, URL } from '../../constants';
+import { formatMoney, getDateFormaMMYY, fetch_timeout } from '../tools/Tools';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { connect } from 'react-redux';
-import { signOut, addEmail } from '../screens/actions/persona';
+import { signOut, addEmail } from '../actions/persona';
 
 class Home extends React.Component {
 
@@ -60,6 +60,10 @@ class Home extends React.Component {
 
   componentDidMount() {
     this.loadInformacion();
+  }
+
+  componentWillUnmount(){
+    console.log("end")
   }
 
   async loadInformacion() {

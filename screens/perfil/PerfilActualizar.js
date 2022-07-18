@@ -16,11 +16,11 @@ import axios from 'axios';
 import SelectDropdown from 'react-native-select-dropdown';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import DatePicker from 'react-native-date-picker';
-import { COLORS, SIZES, icons, FONTS, URL } from '../constants';
-import { getDateForma, getCurrentDate } from "./tools/Tools";
+import { COLORS, SIZES, icons, FONTS, URL } from '../../constants';
+import { getDateForma, getCurrentDate } from "../tools/Tools";
 import { connect } from 'react-redux';
 
-class UpdateInfo extends React.Component {
+class PerfilActualizar extends React.Component {
 
     constructor(props) {
         super(props);
@@ -500,4 +500,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps)(UpdateInfo);
+export default connect(mapStateToProps)(PerfilActualizar);

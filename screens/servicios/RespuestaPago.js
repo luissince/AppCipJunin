@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, View, Text, StatusBar, ScrollView, Image, SafeAreaView, TouchableOpacity, BackHandler, Platform } from 'react-native';
-import { COLORS, SIZES, icons, FONTS, URL } from '../constants';
+import { COLORS, SIZES, icons, FONTS, URL } from '../../constants';
 import { connect } from 'react-redux';
 
 class RespuestaPago extends React.Component {
@@ -31,6 +31,12 @@ class RespuestaPago extends React.Component {
     componentDidMount() {
         if (Platform.OS !== 'ios') {
             BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
+        }
+    }
+
+    componentWillUnmount(){
+        if (Platform.OS !== 'ios') {
+            BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
         }
     }
 

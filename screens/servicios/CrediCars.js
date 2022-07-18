@@ -1,10 +1,21 @@
 import React from 'react';
-import { StyleSheet, View, Text, StatusBar, ScrollView, Image, TouchableOpacity, SafeAreaView, Alert, ActivityIndicator, TextInput } from 'react-native';
-import { COLORS, icons, FONTS, SIZES } from '../constants';
-import { formatMoney, validateEmail } from "./tools/Tools";
+import {
+    StyleSheet,
+    View,
+    Text,
+    StatusBar,
+    ScrollView,
+    Image,
+    TouchableOpacity,
+    SafeAreaView,
+    Alert,
+    TextInput
+} from 'react-native';
+import { COLORS, icons, FONTS } from '../../constants';
+import { formatMoney, validateEmail } from "../tools/Tools";
 import { connect } from 'react-redux';
-import { CreditCardInput } from "./components/credicard";
-import { addCard } from '../screens/actions/persona';
+import { CreditCardInput } from "../components/credicard";
+import { addCard } from '../actions/persona';
 
 class CrediCars extends React.Component {
 

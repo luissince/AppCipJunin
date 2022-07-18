@@ -355,6 +355,7 @@ class Credenciales extends React.Component {
                         value={this.state.email}
                         placeholderTextColor="#666666"
                         autoCapitalize="none"
+                        keyboardType={"email-address"}
                         onChangeText={(text) => this.setState({ email: text })}
                         style={css.inputText}
                         placeholder="Ingrese su correo electrónico."

@@ -1,12 +1,12 @@
 import React from 'react';
-import { StyleSheet, View, Text, StatusBar, ScrollView, Image, SafeAreaView, TouchableOpacity } from 'react-native';
-import { COLORS, SIZES, icons, FONTS, images } from '../constants';
+import { StyleSheet, View, Text, ScrollView, Image, SafeAreaView, TouchableOpacity } from 'react-native';
+import { COLORS, SIZES, icons, FONTS } from '../../constants';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { connect } from 'react-redux';
-import { signOut } from '../screens/actions/persona';
-import HeaderTab from './components/HeaderTab';
+import { signOut } from '../actions/persona';
+import HeaderTab from '../components/HeaderTab';
 
-class Comprobantes extends React.Component {
+class Consultar extends React.Component {
 
   constructor(props) {
     super(props);
@@ -39,37 +39,41 @@ class Comprobantes extends React.Component {
           </View>
         </View>
 
-        <View style={styles.container}>
+        <ScrollView
+          contentContainerStyle={styles.scrollView}
+          showsVerticalScrollIndicator={false}>
+          <View style={styles.container}>
 
-          <TouchableOpacity style={styles.box1} onPress={() => this.props.navigation.navigate('EstadoCuenta')}>
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <Image source={icons.cuenta} style={styles.icon1} />
-              <Text style={{ ...FONTS.h4, color: COLORS.white }}>Doc. de Pago</Text>
-            </View>
-          </TouchableOpacity>
+            <TouchableOpacity style={styles.box1} onPress={() => this.props.navigation.navigate('Comprobantes')}>
+              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <Image source={icons.cuenta} style={styles.icon1} />
+                <Text style={{ ...FONTS.h4, color: COLORS.white }}>Compro. de Pago</Text>
+              </View>
+            </TouchableOpacity>
 
-          <TouchableOpacity style={styles.box} onPress={() => this.props.navigation.navigate('CertHabilidad')}>
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <Text style={{ ...FONTS.h4, color: COLORS.secondary }}>Cert. Habilidad</Text>
-              <Image source={icons.certHabilidad} style={styles.icon} />
-            </View>
-          </TouchableOpacity>
+            <TouchableOpacity style={styles.box} onPress={() => this.props.navigation.navigate('CertHabilidad')}>
+              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <Text style={{ ...FONTS.h4, color: COLORS.secondary }}>Cert. Habilidad</Text>
+                <Image source={icons.certHabilidad} style={styles.icon} />
+              </View>
+            </TouchableOpacity>
 
-          <TouchableOpacity style={styles.box1} onPress={() => this.props.navigation.navigate('CertObra')}>
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <Image source={icons.certObra} style={styles.icon1} />
-              <Text style={{ ...FONTS.h4, color: COLORS.white }}>Cert. Obra</Text>
-            </View>
-          </TouchableOpacity>
+            <TouchableOpacity style={styles.box1} onPress={() => this.props.navigation.navigate('CertObra')}>
+              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <Image source={icons.certObra} style={styles.icon1} />
+                <Text style={{ ...FONTS.h4, color: COLORS.white }}>Cert. Obra</Text>
+              </View>
+            </TouchableOpacity>
 
-          <TouchableOpacity style={styles.box} onPress={() => this.props.navigation.navigate('CertProyecto')}>
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <Text style={{ ...FONTS.h4, color: COLORS.secondary }}>Cert. Proyecto</Text>
-              <Image source={icons.certProyecto} style={styles.icon} />
-            </View>
-          </TouchableOpacity>
+            <TouchableOpacity style={styles.box} onPress={() => this.props.navigation.navigate('CertProyecto')}>
+              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <Text style={{ ...FONTS.h4, color: COLORS.secondary }}>Cert. Proyecto</Text>
+                <Image source={icons.certProyecto} style={styles.icon} />
+              </View>
+            </TouchableOpacity>
 
-        </View>
+          </View>
+        </ScrollView>
 
       </SafeAreaView>
     );
@@ -78,11 +82,16 @@ class Comprobantes extends React.Component {
 }
 
 const styles = StyleSheet.create({
+  scrollView: {
+    flexGrow: 1,
+    alignItems: 'center',
+  },
   container: {
     flex: 1,
+    paddingVertical: 20,
     alignItems: 'center',
     justifyContent: 'center',
-    paddingVertical: 20,
+    flexDirection: 'column',
 
   },
   contenedorTitulo: {
@@ -160,5 +169,5 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(Comprobantes);
+export default connect(mapStateToProps, mapDispatchToProps)(Consultar);
 

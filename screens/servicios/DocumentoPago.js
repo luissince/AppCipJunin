@@ -13,8 +13,8 @@ import {
     Alert
 } from 'react-native';
 import SelectDropdown from 'react-native-select-dropdown';
-import { fetch_timeout } from './tools/Tools';
-import { COLORS, SIZES, icons, FONTS, URL } from '../constants';
+import { fetch_timeout } from '../tools/Tools';
+import { COLORS, SIZES, icons, FONTS, URL } from '../../constants';
 import { connect } from 'react-redux';
 
 class DocumentoPago extends React.Component {
@@ -75,7 +75,7 @@ class DocumentoPago extends React.Component {
                 this.setState({ data: result.data, generate: false, ubicacion: result.ubicacion }, () => {
                     for (let value of result.data) {
                         if (value.Predeterminado == "1") {
-                            this.setState({ idTipoDocumento: value.IdTipoComprobante })
+                            // this.setState({ idTipoDocumento: value.IdTipoComprobante })
                             if (value.UsarRuc == "1") {
                                 this.setState({
                                     numero: '',
@@ -281,6 +281,7 @@ class DocumentoPago extends React.Component {
                                     </View>
                                 </View>
                             </View>
+
                             <View style={{ padding: 10, }}>
                                 <Text style={{ ...FONTS.h4, color: COLORS.secondary }}>D.N.I./R.U.C.</Text>
                                 <View style={{ flexDirection: 'row' }}>
@@ -323,6 +324,7 @@ class DocumentoPago extends React.Component {
                                     </View>
                                 </View>
                             </View>
+
                             <View style={{ padding: 10, }}>
                                 <Text style={{ ...FONTS.h4, color: COLORS.secondary }}>Nombres/Razón Social</Text>
                                 <View style={{ flexDirection: 'row' }}>
@@ -338,6 +340,7 @@ class DocumentoPago extends React.Component {
                                     />
                                 </View>
                             </View>
+                            
                             <View style={{ padding: 10, }}>
                                 <Text style={{ ...FONTS.h4, color: COLORS.secondary }}>Dirección</Text>
                                 <View style={{ flexDirection: 'row' }}>

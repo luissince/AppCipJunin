@@ -3,7 +3,6 @@ import {
   StyleSheet,
   View,
   Text,
-  StatusBar,
   ScrollView,
   Image,
   SafeAreaView,
@@ -11,10 +10,14 @@ import {
   RefreshControl,
   TouchableOpacity
 } from 'react-native';
-import { fetch_timeout } from './tools/Tools';
-import { COLORS, SIZES, icons, FONTS, images, URL } from '../constants';
+import { fetch_timeout } from '../tools/Tools';
+import { COLORS, SIZES, icons, FONTS, images, URL } from '../../constants';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { connect } from 'react-redux';
+import { signOut } from '../actions/persona';
+import HeaderTab from '../components/HeaderTab';
 
-class ContactenosLogin extends React.Component {
+class Contactenos extends React.Component {
 
   constructor(props) {
     super(props);
@@ -63,48 +66,55 @@ class ContactenosLogin extends React.Component {
     this.loadInformacion();
   }
 
-  async loadInformacion() {
-    try {
-      this.setState({ isLoading: true, reload: false, message: 'Cargando información...', });
-      let result = await fetch_timeout(URL.INFORMACION_COLEGIO, {
-        method: "POST",
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        }
-      });
-      if (result.state == 1) {
-        this.setState({
-          isLoading: false,
-          reload: false,
-          message: '',
-          ruc: result.empresa.NumeroDocumento,
-          razonSocial: result.empresa.RazonSocial,
-          email: result.empresa.Email,
-          horarioAtencion: result.empresa.Horario,
-          direccion: result.empresa.Domicilio,
-          celular: result.empresa.Celular,
-          telefono: result.empresa.Telefono,
-          paginaWeb: result.empresa.PaginaWeb
-        });
-      } else {
-        this.setState({
-          reload: true,
-          message: result.message,
-        });
+  loadInformacion() {
+    this.setState({ isLoading: true, reload: false, message: 'Cargando información...', });
+    fetch_timeout(URL.INFORMACION_COLEGIO, {
+      method: "POST",
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
       }
-    } catch (error) {
-      this.setState({
-        reload: true,
-        message: result.message,
-      });
+    }, 10000).then(result => {
+      if (result.state == 0) {
+        this.setState({ reload: true, message: result.message });
+      } else {
+        if (result.state == 1) {
+          this.setState({
+            isLoading: false,
+            reload: false,
+            message: '',
+            ruc: result.empresa.NumeroDocumento,
+            razonSocial: result.empresa.RazonSocial,
+            email: result.empresa.Email,
+            horarioAtencion: result.empresa.Horario,
+            direccion: result.empresa.Domicilio,
+            celular: result.empresa.Celular,
+            telefono: result.empresa.Telefono,
+            paginaWeb: result.empresa.PaginaWeb
+          });
+        } else {
+          this.setState({
+            reload: true,
+            message: result.message,
+          });
+        }
+      }
+    });
+  }
+
+  onEventCloseSession = async () => {
+    try {
+      await AsyncStorage.removeItem('user');
+      this.props.removeToken();
+    } catch (e) {
+      this.props.removeToken();
     }
   }
 
   render() {
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.lightGray }}>
-        <StatusBar barStyle="light-content" backgroundColor={COLORS.statusbar} />
+        <HeaderTab onEventCloseSession={this.onEventCloseSession} />
 
         <View style={styles.contenedorTitulo}>
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -122,10 +132,7 @@ class ContactenosLogin extends React.Component {
           this.state.isLoading ?
             (
               <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', padding: SIZES.padding }}>
-                {
-
-                  !this.state.reload ? <ActivityIndicator size="large" color={COLORS.primary} /> : null
-                }
+                <ActivityIndicator size="large" color={COLORS.primary} />
                 <Text style={{ ...FONTS.h3, color: COLORS.black, textAlign: 'center', marginBottom: 10 }}>{this.state.message}</Text>
                 {
                   this.state.reload ?
@@ -317,7 +324,15 @@ const mapStateToProps = (state) => {
   }
 }
 
+const mapDispatchToProps = (dispatch) => {
+  return {
+    removeToken: () => dispatch(signOut())
+  }
+}
 
-export default ContactenosLogin;
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Contactenos);
+// export default Contactenos;
 
 

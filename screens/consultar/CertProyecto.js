@@ -16,11 +16,11 @@ import {
 import RNFetchBlob from 'rn-fetch-blob';
 import Share from 'react-native-share';
 import FileViewer from 'react-native-file-viewer';
-import { fetch_timeout } from './tools/Tools';
-import { COLORS, SIZES, icons, FONTS, URL } from '../constants';
+import { fetch_timeout } from '../tools/Tools';
+import { COLORS, SIZES, icons, FONTS, URL } from '../../constants';
 import { connect } from 'react-redux';
 
-class CertHabilidad extends React.Component {
+class CertProyecto extends React.Component {
 
   constructor(props) {
     super(props);
@@ -34,8 +34,8 @@ class CertHabilidad extends React.Component {
     }
 
     this.props.navigation.setOptions({
-      title: 'Cert. Habilidad',
-      headerTitle: 'Cert. Habilidad',
+      title: 'Cert. Proyecto',
+      headerTitle: 'Cert. Proyecto',
       headerStyle: {
         backgroundColor: COLORS.primary,
       },
@@ -54,9 +54,9 @@ class CertHabilidad extends React.Component {
     this.loadCuentas();
   }
 
-  loadCuentas() {
+  async loadCuentas() {
     this.setState({ message: 'Cargando certificado...', refreshing: true });
-    fetch_timeout(URL.CERT_HABILIDAD_PERSONA, {
+    fetch_timeout(URL.CERT_PROYECTO_PERSONA, {
       method: "POST",
       headers: {
         'Accept': 'application/json',
@@ -93,10 +93,10 @@ class CertHabilidad extends React.Component {
   }
 
   async sendToShare(item) {
-    let fileName = "Certificado De Habilidad  N°-" + item.Numero;
+    let fileName = "Certificado De Proyecto  N°-" + item.Numero;
     let filePath = Platform.OS === 'ios' ? RNFetchBlob.fs.dirs.DocumentDir : RNFetchBlob.fs.dirs.DownloadDir;
     let path = filePath + "/" + fileName + ".pdf";
-    let fileUrl = URL.DOMINIO + 'sunat/pdfCertHabilidadView.php?idIngreso=' + item.idIngreso;
+    let fileUrl = URL.DOMINIO + 'sunat/pdfCertProyectoView.php?idIngreso=' + item.idIngreso;
     let config = Platform.OS === 'ios' ? {
       fileCache: true,
       path: path,
@@ -189,13 +189,80 @@ class CertHabilidad extends React.Component {
         this.setState({ generate: false });
       }
     }
+
+    // if (Platform.OS === 'ios') {
+    // } else {
+    //   this.setState({ generate: true });
+    //   let path = null;
+    //   try {
+    //     const granted = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE);
+    //     if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+
+    //       const dirs = RNFetchBlob.fs.dirs
+    //       let filePath = dirs.DownloadDir + "/cache";
+
+    //       let exist = await RNFetchBlob.fs.isDir(filePath);
+    //       if (!exist) {
+    //         await RNFetchBlob.fs.mkdir(filePath);
+    //       }
+
+    //       let fileName = "Certificado De Proyecto  N°-" + item.Numero;
+    //       let fileUrl = URL.DOMINIO + 'sunat/pdfCertProyectoView.php?idIngreso=' + item.idIngreso;
+
+    //       try {
+    //         let download = await RNFetchBlob.config({
+    //           fileCache: true,
+    //           addAndroidDownloads: {
+    //             useDownloadManager: true,
+    //             notification: false,
+    //             mediaScannable: true,
+    //             title: fileName + ".pdf",
+    //             path: filePath + "/" + fileName + ".pdf",
+    //           }
+    //         }).fetch('GET', fileUrl);
+
+    //         let base64 = await RNFetchBlob.fs.readFile(download.path(), 'base64');
+    //         let base64Data = 'data:application/pdf;base64,' + base64;
+    //         try {
+    //           path = download.path();
+    //           this.setState({ generate: false });
+    //           await Share.open({
+    //             title: "Compartir",
+    //             url: base64Data,
+    //             message: "Certificado de Obra",
+    //             filename: fileName
+    //           });
+    //           let exist = await RNFetchBlob.fs.exists(path);
+    //           if (exist) {
+    //             await RNFetchBlob.fs.unlink(path);
+    //           }
+    //         } catch (error) {
+    //           // throw new Error("El celular no tiene soporte para generar un Share.");
+    //         }
+    //       } catch (error) {
+    //         // throw new Error("Se produjo en problema al descargar el archivo, intente nuevamente en un par de minutos.");
+    //       }
+    //     } else {
+    //       Alert.alert('Permiso Denegado!', 'Debe otorgar permiso de almacenamiento para descargar el archivo.');
+    //     }
+    //   } catch (err) {
+    //     Alert.alert('Problema!', 'Se genero un problema: ' + err.message);
+    //   } finally {
+    //     if (path != null) {
+    //       RNFetchBlob.fs.unlink(path).then(() => { }).catch((err) => { })
+    //     }
+    //     if (this.state.generate) {
+    //       this.setState({ generate: false });
+    //     }
+    //   }
+    // }
   }
 
   async dowloadPdf(item) {
-    let fileName = "Certificado De Habilidad  N°-" + item.Numero;
+    let fileName = "Certificado De Proyecto  N°-" + item.Numero;
     let filePath = Platform.OS === 'ios' ? RNFetchBlob.fs.dirs.DocumentDir : RNFetchBlob.fs.dirs.DownloadDir;
     let path = filePath + "/" + fileName + ".pdf";
-    let fileUrl = URL.DOMINIO + 'sunat/pdfCertHabilidadView.php?idIngreso=' + item.idIngreso;
+    let fileUrl = URL.DOMINIO + 'sunat/pdfCertProyectoView.php?idIngreso=' + item.idIngreso;
     let config = Platform.OS === 'ios' ? {
       fileCache: true,
       path: path,
@@ -248,8 +315,6 @@ class CertHabilidad extends React.Component {
     }
   }
 
-
-
   render() {
     return (
       <SafeAreaView style={styles.safeAreaView} >
@@ -258,13 +323,13 @@ class CertHabilidad extends React.Component {
         <View style={styles.contenedorTitulo}>
           <View style={{ marginRight: 10 }}>
             <Image
-              source={icons.certHabilidad}
+              source={icons.statementAccounts}
               resizeMode='contain'
               style={styles.itemIcon} />
           </View>
           <View>
             <Text style={{ fontWeight: 'bold' }}>
-              Lista de Certificados de Habilidad
+              Lista de Certificados de Proyecto
             </Text>
           </View>
         </View>
@@ -428,4 +493,4 @@ const mapStateToProps = (state) => {
 }
 
 
-export default connect(mapStateToProps)(CertHabilidad);
+export default connect(mapStateToProps)(CertProyecto);

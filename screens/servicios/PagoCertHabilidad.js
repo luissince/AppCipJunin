@@ -13,8 +13,8 @@ import {
     TextInput
 } from 'react-native';
 import SelectDropdown from 'react-native-select-dropdown';
-import { COLORS, SIZES, icons, FONTS, URL, images } from '../constants';
-import { fetch_timeout, formatMoney } from "./tools/Tools";
+import { COLORS, icons, FONTS, URL } from '../../constants';
+import { fetch_timeout, formatMoney } from "../tools/Tools";
 import { connect } from 'react-redux';
 
 class PagoCertHabilidad extends React.Component {

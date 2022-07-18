@@ -1,10 +1,10 @@
 import React from 'react';
 import { Image, Text, View, StyleSheet, SafeAreaView, ScrollView, TouchableOpacity } from 'react-native';
-import { COLORS, SIZES, icons, FONTS, images } from '../constants';
+import { COLORS, SIZES, icons, FONTS, images } from '../../constants';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { connect } from 'react-redux';
-import { signOut } from '../screens/actions/persona';
-import HeaderTab from './components/HeaderTab';
+import { signOut } from '../actions/persona';
+import HeaderTab from '../components/HeaderTab';
 
 class Servicios extends React.Component {
 
@@ -29,6 +29,14 @@ class Servicios extends React.Component {
         this.props.navigation.navigate('PagoCertHabilidad')
     }
 
+    onEventBusquedaColegiado = () => {
+        this.props.navigation.navigate('BusquedaColegiado')
+    }
+
+    onEventBolsaTrabajo = () => {
+        this.props.navigation.navigate('BolsaTrabajo')
+    }
+
     render() {
         return (
             <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.lightGray }}>
@@ -46,7 +54,9 @@ class Servicios extends React.Component {
                     </View>
                 </View>
 
-                <ScrollView showsVerticalScrollIndicator={false}>
+                <ScrollView
+                    contentContainerStyle={styles.scrollView}
+                    showsVerticalScrollIndicator={false}>
                     <View style={styles.container}>
                         <View style={{ flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center' }}>
 
@@ -60,16 +70,16 @@ class Servicios extends React.Component {
                                 <Text style={{ ...FONTS.h4, color: COLORS.secondary, textAlign: 'center' }}>Cert. de Habilidad</Text>
                             </TouchableOpacity>
 
-                            {/* <TouchableOpacity style={[styles.box, styles.box3]} onPress={() => { }}>
-                                <Image source={icons.certObra} style={{ width: 24, height: 24, tintColor: COLORS.secondary }} />
-                                <Text style={{ ...FONTS.h4, color: COLORS.secondary, textAlign: 'center' }}>Cert. de Obra</Text>
+                            <TouchableOpacity style={[styles.box, styles.box3]} onPress={this.onEventBusquedaColegiado}>
+                                <Image source={icons.searchcollegiate} style={{ width: 24, height: 24, tintColor: COLORS.secondary }} />
+                                <Text style={{ ...FONTS.h4, color: COLORS.secondary, textAlign: 'center' }}>Busqueda Colegiado</Text>
                                 <Text style={{ ...FONTS.h4, color: COLORS.secondary, textAlign: 'center' }}></Text>
-                            </TouchableOpacity> */}
+                            </TouchableOpacity>
 
-                            {/* <TouchableOpacity style={[styles.box, styles.box4]} onPress={() => { }}>
-                                <Image source={icons.certProyecto} style={{ width: 24, height: 24, tintColor: COLORS.secondary }} />
-                                <Text style={{ ...FONTS.h4, color: COLORS.secondary, textAlign: 'center' }}>Cert. de Proyecto</Text>
-                            </TouchableOpacity> */}
+                            <TouchableOpacity style={[styles.box, styles.box4]} onPress={this.onEventBolsaTrabajo}>
+                                <Image source={icons.jobbank} style={{ width: 24, height: 24, tintColor: COLORS.secondary }} />
+                                <Text style={{ ...FONTS.h4, color: COLORS.secondary, textAlign: 'center' }}>Bolsa de Trabajo</Text>
+                            </TouchableOpacity>
 
                         </View>
                     </View>
@@ -81,9 +91,16 @@ class Servicios extends React.Component {
 }
 
 const styles = StyleSheet.create({
+    scrollView: {
+        flexGrow: 1,
+        alignItems: 'center',
+    },
     container: {
         flex: 1,
-        paddingVertical: 20
+        paddingVertical: 20,
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexDirection: 'column',
     },
     contenedorTitulo: {
         backgroundColor: COLORS.white,

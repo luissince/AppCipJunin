@@ -1,8 +1,17 @@
 import React from 'react';
-import axios from 'axios';
-import { StyleSheet, View, Text, StatusBar, ScrollView, Image, SafeAreaView, TouchableOpacity, ActivityIndicator } from 'react-native';
-import { COLORS, SIZES, icons, FONTS, URL } from '../constants';
-import { getDateFormaMMYY } from "./tools/Tools";
+import {
+    StyleSheet,
+    View,
+    Text,
+    StatusBar,
+    ScrollView,
+    Image,
+    SafeAreaView,
+    TouchableOpacity,
+    ActivityIndicator
+} from 'react-native';
+import { COLORS, SIZES, icons, FONTS, URL } from '../../constants';
+import { getDateFormaMMYY } from "../tools/Tools";
 import { connect } from 'react-redux';
 
 class ConfirmarPago extends React.Component {

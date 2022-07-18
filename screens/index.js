@@ -1,47 +1,61 @@
 import SplashScreen from './SplashScreen';
 import Login from './Login';
-import Home from './Home';
-import Perfil from './Perfil';
-import EstadoCuenta from './EstadoCuenta';
-import CertHabilidad from './CertHabilidad';
-import CertObra from './CertObra';
-import CertProyecto from './CertProyecto';
-import Comprobantes from './Comprobantes';
-import Contactenos from './Contactenos';
-import ContactenosLogin from './ContactenosLogin';
-import Credenciales from './Credenciales';
-import Servicios from './Servicios';
-import CrediCars from './CrediCars';
-import PagoCuota from './PagoCuota';
-import ConfirmarPago from './ConfirmarPago';
-import RespuestaPago from './RespuestaPago';
-import CargarTarjeta from './CargarTarjeta';
-import DocumentoPago from './DocumentoPago';
-import PagoCertHabilidad from './PagoCertHabilidad';
 import RestaurarClave from './RestaurarClave';
-import UpdateInfo from './UpdateInfo';
+import Credenciales from './Credenciales';
+
+import Home from './home/Home';
+
+import Servicios from './servicios/Servicios';
+import PagoCuota from './servicios/PagoCuota';
+import PagoCertHabilidad from './servicios/PagoCertHabilidad';
+import CargarTarjeta from './servicios/CargarTarjeta';
+import CrediCars from './servicios/CrediCars';
+import DocumentoPago from './servicios/DocumentoPago';
+import ConfirmarPago from './servicios/ConfirmarPago';
+import RespuestaPago from './servicios/RespuestaPago';
+import BusquedaColegiado from './servicios/BusquedaColegiado';
+import BolsaTrabajo from './servicios/BolsaTrabajo';
+
+import Consultar from './consultar/Consultar';
+import Comprobantes from './consultar/Comprobantes';
+import CertHabilidad from './consultar/CertHabilidad';
+import CertObra from './consultar/CertObra';
+import CertProyecto from './consultar/CertProyecto';
+
+import Contactenos from './directorio/Contactenos';
+import ContactenosLogin from './directorio/ContactenosLogin';
+
+import Perfil from './perfil/Perfil';
+import PerfilActualizar from './perfil/PerfilActualizar';
 
 export {
+    SplashScreen,
     Login,
-    Home,
-    Perfil,
-    Contactenos,
-    ContactenosLogin,
-    Comprobantes,
     Credenciales,
-    EstadoCuenta,
+    RestaurarClave,
+    
+    Home,
+    
+    Servicios,
+    PagoCuota,
+    PagoCertHabilidad,
+    CargarTarjeta,
+    CrediCars,
+    DocumentoPago,
+    ConfirmarPago,
+    RespuestaPago,
+    BusquedaColegiado,
+    BolsaTrabajo,
+    
+    Consultar,
+    Comprobantes,
     CertHabilidad,
     CertObra,
     CertProyecto,
-    SplashScreen,
-    Servicios,
-    CrediCars,
-    PagoCuota,
-    ConfirmarPago,
-    RespuestaPago,
-    CargarTarjeta,
-    DocumentoPago,
-    PagoCertHabilidad,
-    RestaurarClave,
-    UpdateInfo
+
+    Contactenos,
+    ContactenosLogin,
+
+    Perfil,
+    PerfilActualizar
 };

@@ -4,7 +4,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import {
   Login,
   Credenciales,
-  EstadoCuenta,
+  Comprobantes,
   SplashScreen,
   CrediCars,
   PagoCuota,
@@ -18,7 +18,9 @@ import {
   DocumentoPago,
   PagoCertHabilidad,
   RestaurarClave,
-  UpdateInfo
+  PerfilActualizar,
+  BusquedaColegiado,
+  BolsaTrabajo
 } from './screens';
 import Tabs from './navigation/tabs';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
@@ -73,7 +75,7 @@ class App extends React.Component {
                       component={Tabs}
                       options={{ headerShown: false }}
                     />
-                    <Stack.Screen name="EstadoCuenta" component={EstadoCuenta} />
+                    <Stack.Screen name="Comprobantes" component={Comprobantes} />
                     <Stack.Screen name="CertHabilidad" component={CertHabilidad} />
                     <Stack.Screen name="CertObra" component={CertObra} />
                     <Stack.Screen name="CertProyecto" component={CertProyecto} />
@@ -84,7 +86,9 @@ class App extends React.Component {
                     <Stack.Screen name="CargarTarjeta" component={CargarTarjeta} />
                     <Stack.Screen name="DocumentoPago" component={DocumentoPago} />
                     <Stack.Screen name="PagoCertHabilidad" component={PagoCertHabilidad} />
-                    <Stack.Screen name="UpdateInfo" component={UpdateInfo} />
+                    <Stack.Screen name="PerfilActualizar" component={PerfilActualizar} />
+                    <Stack.Screen name="BusquedaColegiado" component={BusquedaColegiado} />
+                    <Stack.Screen name="BolsaTrabajo" component={BolsaTrabajo} />
                   </>
                 )
             }

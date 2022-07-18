@@ -11,12 +11,12 @@ import {
   RefreshControl,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import { fetch_timeout } from './tools/Tools';
-import { COLORS, SIZES, icons, FONTS, images, URL } from '../constants';
+import { fetch_timeout } from '../tools/Tools';
+import { COLORS, SIZES, icons, FONTS, images, URL } from '../../constants';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { connect } from 'react-redux';
-import { signOut } from '../screens/actions/persona';
-import HeaderTab from './components/HeaderTab';
+import { signOut } from '../actions/persona';
+import HeaderTab from '../components/HeaderTab';
 
 class Perfil extends React.Component {
 
@@ -479,7 +479,7 @@ class Perfil extends React.Component {
   }
 
   onEventUpdateInfo = () => {
-    this.props.navigation.navigate('UpdateInfo')
+    this.props.navigation.navigate('PerfilActualizar')
   }
 
   render() {

@@ -32,6 +32,18 @@ export function nombreMes(mes) {
     return array[mes - 1];
 }
 
+export function formaText(value){
+    return value.charAt(0)+ value.substr(1,value.length -1).toLowerCase();
+}
+
+export function upperCase(value){
+    return value == null || value == undefined ? "" : value.toUpperCase();
+}
+
+export function lowerCase(value){
+    return value == null || value == undefined ? "" : value.toLowerCase();
+}
+
 export function filterWhole(event) {
     var key = window.Event ? event.which : event.keyCode;
     var c = String.fromCharCode(key);

@@ -51,6 +51,8 @@ export const addcard = require("../assets/icons/addcard.png");
 export const start = require("../assets/icons/start.png");
 export const remove = require("../assets/icons/remove.png");
 export const sunat_logo = require("../assets/icons/sunat_logo.png");
+export const jobbank = require("../assets/icons/jobbank.png");
+export const searchcollegiate = require("../assets/icons/searchcollegiate.png");
 
 export default {
     camera,
@@ -105,5 +107,7 @@ export default {
     addcard,
     start,
     remove,
-    sunat_logo
+    sunat_logo,
+    jobbank,
+    searchcollegiate
 }

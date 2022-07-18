@@ -2,7 +2,7 @@ import React from 'react';
 import { Image, View } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { COLORS, icons } from '../constants';
-import { Home, Perfil, Contactenos, Comprobantes, Servicios } from '../screens';
+import { Home, Perfil, Contactenos, Consultar, Servicios } from '../screens';
 
 const Tab = createBottomTabNavigator();
 
@@ -45,15 +45,6 @@ class Tabs extends React.Component {
 
     }
 
-    // onEventCloseSession = async () => {
-    //     try {
-    //         await SecureStorage.removeItem('user');
-    //         this.props.removeToken();
-    //     } catch (e) {
-    //         this.props.removeToken();
-    //     }
-    // }
-
     render() {
         return (
             <Tab.Navigator tabBarOptions={{
@@ -73,7 +64,7 @@ class Tabs extends React.Component {
                                         height: 24
                                     }} />
                             );
-                            case "Comprobantes": return (<Image
+                            case "Consultar": return (<Image
                                 source={icons.comprobantes}
                                 resizeMode='contain'
                                 style={{
@@ -124,8 +115,8 @@ class Tabs extends React.Component {
                     component={Home}>
                 </Tab.Screen>
                 <Tab.Screen
-                    name="Comprobantes"
-                    component={Comprobantes}>
+                    name="Consultar"
+                    component={Consultar}>
                 </Tab.Screen>
                 <Tab.Screen
                     name="Servicios"
