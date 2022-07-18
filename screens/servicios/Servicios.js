@@ -76,10 +76,10 @@ class Servicios extends React.Component {
                                 <Text style={{ ...FONTS.h4, color: COLORS.secondary, textAlign: 'center' }}></Text>
                             </TouchableOpacity>
 
-                            <TouchableOpacity style={[styles.box, styles.box4]} onPress={this.onEventBolsaTrabajo}>
+                            {/* <TouchableOpacity style={[styles.box, styles.box4]} onPress={this.onEventBolsaTrabajo}>
                                 <Image source={icons.jobbank} style={{ width: 24, height: 24, tintColor: COLORS.secondary }} />
                                 <Text style={{ ...FONTS.h4, color: COLORS.secondary, textAlign: 'center' }}>Bolsa de Trabajo</Text>
-                            </TouchableOpacity>
+                            </TouchableOpacity> */}
 
                         </View>
                     </View>
