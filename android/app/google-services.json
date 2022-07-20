@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "302234010340",
+    "project_id": "useful-field-356801",
+    "storage_bucket": "useful-field-356801.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:302234010340:android:00f65d90d41e1deed562f1",
+        "android_client_info": {
+          "package_name": "org.pe.cipjunin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "302234010340-c4l2e0td9fsfjlmogasfcf4ah03k28eg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAFZAjr-fLYRWHXahI6ZQwEVqVhgKkFuCI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "302234010340-c4l2e0td9fsfjlmogasfcf4ah03k28eg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

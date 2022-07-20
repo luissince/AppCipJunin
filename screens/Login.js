@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import {
-
   StyleSheet,
   ScrollView,
   ImageBackground,
@@ -14,6 +13,7 @@ import {
   StatusBar,
   Keyboard
 } from 'react-native';
+import axios from 'axios';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import * as Animatable from 'react-native-animatable';
 import Feather from 'react-native-vector-icons/Feather';
@@ -51,10 +51,7 @@ class Login extends React.Component {
   }
 
   componentDidMount() {
-    // this.subscription = Dimensions.addEventListener('change', async (result) => {
-    //   await this.setStateAsync({ isPortrait: result.screen.height > result.screen.width });
 
-    // });
   }
 
   componentWillUnmount() {
@@ -83,37 +80,29 @@ class Login extends React.Component {
 
     try {
       Keyboard.dismiss();
-      
-      await this.setStateAsync({ isLogin: true });
- 
-      let result = await fetch_timeout(URL.LOGIN_PERSONA, {
-        method: "POST",
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          "usuario": this.state.usuario.trim(),
-          "clave": this.state.clave.trim()
-        })
-      });
 
-      if (result.state == 0) {
-        await this.setStateAsync({ isLogin: false });
-        Alert.alert("Alerta", result.message);
-      } else {
-        if (result.state == 1) {
-          await AsyncStorage.setItem('user', JSON.stringify(result.persona));
-          await this.setStateAsync({ isLogin: false });
-          this.props.addToken(JSON.stringify(result.persona));
-        } else {
-          await this.setStateAsync({ isLogin: false });
-          Alert.alert("Alerta", result.message);
-        }
-      }
-    } catch (error) {
+      await this.setStateAsync({ isLogin: true });
+
+      let fcmtoken = await AsyncStorage.getItem('tokenfcm');
+
+      let result = await axios.post(URL.LOGIN_PERSONA, {
+        "usuario": this.state.usuario.trim(),
+        "clave": this.state.clave.trim(),
+        "token": fcmtoken
+      }, { timeout: 40000 });
+
+      await AsyncStorage.setItem('user', JSON.stringify(result.data));
       await this.setStateAsync({ isLogin: false });
-      Alert.alert("Alerta", "Se genero un problema, intente nuevamente en un par de minutos.");
+      this.props.addToken(JSON.stringify(result.data));
+
+    } catch (error) {
+      if (error.response) {
+        await this.setStateAsync({ isLogin: false });
+        Alert.alert("Alerta", error.response.data);
+      } else {
+        await this.setStateAsync({ isLogin: false });
+        Alert.alert("Alerta", "Se genero un problema, intente nuevamente en un par de minutos.");
+      }
     }
   }
 
@@ -151,182 +140,183 @@ class Login extends React.Component {
 
   render() {
     return (
-      <ImageBackground
-        source={images.fondoLogin}
-        style={css.imageBackground}>
+      <Fragment>
+        <ImageBackground
+          source={images.fondoLogin}
+          style={css.imageBackground}>
 
-        <SafeAreaView style={css.safeAreaView}>
-          <StatusBar barStyle="dark-content" translucent backgroundColor='transparent' />
-          <ScrollView
-            contentContainerStyle={css.scrollView}
-            keyboardShouldPersistTaps='handled'>
+          <SafeAreaView style={css.safeAreaView}>
+            <StatusBar barStyle="dark-content" translucent backgroundColor='transparent' />
+            <ScrollView
+              contentContainerStyle={css.scrollView}
+              keyboardShouldPersistTaps='handled'>
 
-            <View style={css.content}>
-              {/* SECCCIÓN DEL HEADER */}
-              <Image
-                source={images.logoCIPColor}
-                style={css.logo}
-              />
-
-              <Text style={{ ...FONTS.text_tittle, marginBottom: 20 }}>
-                CONSEJO DEPARTAMENTAL DE JUNÍN
-              </Text>
-              {/*  */}
-
-              {/* SECCIÓN DEL BODY */}
-
-              <Text style={{ ...FONTS.h4, color: COLORS.primary }}>INICIAR SESIÓN</Text>
-
-              {
-                this.state.isLogin ?
-                  <View style={{ alignItems: 'center' }}>
-                    <ActivityIndicator size="large" color={COLORS.primary} />
-                    <Text style={{ ...FONTS.h4 }}>Validando datos...</Text>
-                  </View>
-                  : null
-              }
-
-              {/* TEXT USUARIO */}
-              <View style={[css.inputContent, { width: 200 }]}>
-                <FontAwesome
-                  name="user-o"
-                  color={COLORS.secondary}
-                  size={20}
+              <View style={css.content}>
+                {/* SECCCIÓN DEL HEADER */}
+                <Image
+                  source={images.logoCIPColor}
+                  style={css.logo}
                 />
-                <TextInput
-                  autoFocus={true}
-                  ref={this.refUsuario}
-                  placeholder="Ingrese N° CIP o Dni"
-                  placeholderTextColor="#666666"
-                  keyboardType="numeric"
-                  style={css.inputText}
-                  onChangeText={(text) => { this.setState({ usuario: text }) }}
-                  value={this.state.usuario}
-                  onSubmitEditing={() => this.onEventLogin()}
-                />
+
+                <Text style={{ ...FONTS.text_tittle, marginBottom: 20 }}>
+                  CONSEJO DEPARTAMENTAL DE JUNÍN
+                </Text>
+                {/*  */}
+
+                {/* SECCIÓN DEL BODY */}
+
+                <Text style={{ ...FONTS.h4, color: COLORS.primary }}>INICIAR SESIÓN</Text>
+
                 {
-                  this.state.usuario !== "" ?
-                    <Animatable.View
-                      animation="bounceIn">
-                      <Feather
-                        name="check-circle"
-                        color={COLORS.primary}
-                        size={20}
-                      />
-                    </Animatable.View>
-                    :
-                    <Animatable.View
-                      animation="bounceIn">
-                      <Feather
-                        name="info"
-                        color={COLORS.gray}
-                        size={20}
-                      />
-                    </Animatable.View>
+                  this.state.isLogin ?
+                    <View style={{ alignItems: 'center' }}>
+                      <ActivityIndicator size="large" color={COLORS.primary} />
+                      <Text style={{ ...FONTS.h4 }}>Validando datos...</Text>
+                    </View>
+                    : null
                 }
-              </View>
 
-              {/* TEXT CONTRASEÑA */}
-              <View style={[css.inputContent, { width: 200 }]}>
-                <FontAwesome
-                  name="lock"
-                  color={COLORS.secondary}
-                  size={22}
-                />
-                <TextInput
-                  ref={this.refClave}
-                  placeholder="Ingrese su Contraseña"
-                  placeholderTextColor="#666666"
-                  autoCapitalize="none"
-                  secureTextEntry={!this.state.isVisiblePassword}
-                  style={css.inputText}
-                  value={this.state.clave}
-                  onChangeText={(text) => { this.setState({ clave: text }) }}
-                  onSubmitEditing={() => this.onEventLogin()}
-                />
-                <TouchableOpacity
-                  onPress={() => this.setState({ isVisiblePassword: !this.state.isVisiblePassword })}
-                >
-                  {this.state.isVisiblePassword ?
-                    <Feather
-                      name="eye-off"
-                      color="grey"
-                      size={20}
-                    />
-                    :
-                    <Feather
-                      name="eye"
-                      color="grey"
-                      size={20}
-                    />
+                {/* TEXT USUARIO */}
+                <View style={[css.inputContent, { width: 200 }]}>
+                  <FontAwesome
+                    name="user-o"
+                    color={COLORS.secondary}
+                    size={20}
+                  />
+                  <TextInput
+                    autoFocus={true}
+                    ref={this.refUsuario}
+                    placeholder="Ingrese N° CIP o Dni"
+                    placeholderTextColor="#666666"
+                    keyboardType="numeric"
+                    style={css.inputText}
+                    onChangeText={(text) => { this.setState({ usuario: text }) }}
+                    value={this.state.usuario}
+                    onSubmitEditing={() => this.onEventLogin()}
+                  />
+                  {
+                    this.state.usuario !== "" ?
+                      <Animatable.View
+                        animation="bounceIn">
+                        <Feather
+                          name="check-circle"
+                          color={COLORS.primary}
+                          size={20}
+                        />
+                      </Animatable.View>
+                      :
+                      <Animatable.View
+                        animation="bounceIn">
+                        <Feather
+                          name="info"
+                          color={COLORS.gray}
+                          size={20}
+                        />
+                      </Animatable.View>
                   }
+                </View>
+
+                {/* TEXT CONTRASEÑA */}
+                <View style={[css.inputContent, { width: 200 }]}>
+                  <FontAwesome
+                    name="lock"
+                    color={COLORS.secondary}
+                    size={22}
+                  />
+                  <TextInput
+                    ref={this.refClave}
+                    placeholder="Ingrese su Contraseña"
+                    placeholderTextColor="#666666"
+                    autoCapitalize="none"
+                    secureTextEntry={!this.state.isVisiblePassword}
+                    style={css.inputText}
+                    value={this.state.clave}
+                    onChangeText={(text) => { this.setState({ clave: text }) }}
+                    onSubmitEditing={() => this.onEventLogin()}
+                  />
+                  <TouchableOpacity
+                    onPress={() => this.setState({ isVisiblePassword: !this.state.isVisiblePassword })}
+                  >
+                    {this.state.isVisiblePassword ?
+                      <Feather
+                        name="eye-off"
+                        color="grey"
+                        size={20}
+                      />
+                      :
+                      <Feather
+                        name="eye"
+                        color="grey"
+                        size={20}
+                      />
+                    }
+                  </TouchableOpacity>
+                </View>
+
+                <TouchableOpacity
+                  style={css.buttonPrimary}
+                  onPress={() => this.onEventLogin()}>
+                  <Text style={{ ...FONTS.h4, color: COLORS.white }}>
+                    INGRESAR
+                  </Text>
                 </TouchableOpacity>
-              </View>
-
-              <TouchableOpacity
-                style={css.buttonPrimary}
-                onPress={() => this.onEventLogin()}>
-                <Text style={{ ...FONTS.h4, color: COLORS.white }}>
-                  INGRESAR
-                </Text>
-              </TouchableOpacity>
 
 
-              <TouchableOpacity
-                onPress={() => this.eventOpenCredenciales()}
-                style={css.marginVertical10}>
-                <Text style={{ ...FONTS.h4, textDecorationLine: 'underline' }}>
-                  Solicita tus credenciales
-                </Text>
-              </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => this.eventOpenCredenciales()}
+                  style={css.marginVertical10}>
+                  <Text style={{ ...FONTS.h4, textDecorationLine: 'underline' }}>
+                    Solicita tus credenciales
+                  </Text>
+                </TouchableOpacity>
 
-              <TouchableOpacity
-                onPress={() => this.eventOpenRecuperar()}
-                style={css.marginVertical10}>
-                <Text style={{ ...FONTS.h4, color: COLORS.blue, textDecorationLine: 'underline' }}>
-                  ¿Olvido su contraseña?
-                </Text>
-              </TouchableOpacity>
-              {/*  */}
+                <TouchableOpacity
+                  onPress={() => this.eventOpenRecuperar()}
+                  style={css.marginVertical10}>
+                  <Text style={{ ...FONTS.h4, color: COLORS.blue, textDecorationLine: 'underline' }}>
+                    ¿Olvido su contraseña?
+                  </Text>
+                </TouchableOpacity>
+                {/*  */}
 
-              {/* SECCIÓN DEL FOOTER*/}
-              <View style={css.footerContent}>
-                <View style={css.footerIntent}>
-                  <TouchableOpacity
-                    onPress={() => this.eventOpenContactanos()}
-                    style={css.footerButton}>
-                    <Image
-                      source={images.phoneIcon}
-                      style={css.footerImagen}
-                    />
-                    <Text style={css.footerText}>Contáctenos</Text>
-                  </TouchableOpacity>
+                {/* SECCIÓN DEL FOOTER*/}
+                <View style={css.footerContent}>
+                  <View style={css.footerIntent}>
+                    <TouchableOpacity
+                      onPress={() => this.eventOpenContactanos()}
+                      style={css.footerButton}>
+                      <Image
+                        source={images.phoneIcon}
+                        style={css.footerImagen}
+                      />
+                      <Text style={css.footerText}>Contáctenos</Text>
+                    </TouchableOpacity>
+                  </View>
+
+                  <View style={css.footerIntent}>
+                    <TouchableOpacity
+                      onPress={() => this.oventOpenMaps()}
+                      style={css.footerButton}>
+                      <Image
+                        source={images.placeIcon}
+                        style={css.footerImagen}
+                      />
+                      <Text style={css.footerText}>Ubicanos</Text>
+                    </TouchableOpacity>
+                  </View>
                 </View>
 
-                <View style={css.footerIntent}>
-                  <TouchableOpacity
-                    onPress={() => this.oventOpenMaps()}
-                    style={css.footerButton}>
-                    <Image
-                      source={images.placeIcon}
-                      style={css.footerImagen}
-                    />
-                    <Text style={css.footerText}>Ubicanos</Text>
-                  </TouchableOpacity>
+                <View style={{ alignItems: 'center', marginVertical: 5 }}>
+                  <Text style={{ ...FONTS.h5, color: COLORS.grayDark }}>
+                    Versión 1.0.7
+                  </Text>
                 </View>
               </View>
 
-              <View style={{ alignItems: 'center', marginVertical: 5 }}>
-                <Text style={{ ...FONTS.h5, color: COLORS.grayDark }}>
-                  Versión 1.0.4
-                </Text>
-              </View>
-            </View>
-
-          </ScrollView>
-        </SafeAreaView>
-
-      </ImageBackground>
+            </ScrollView>
+          </SafeAreaView>
+        </ImageBackground>
+      </Fragment>
     );
   }
 

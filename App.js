@@ -1,5 +1,6 @@
 import * as React from 'react';
-import notifee from '@notifee/react-native';
+import {Alert} from 'react-native';
+// import notifee from '@notifee/react-native';
 import messaging from '@react-native-firebase/messaging';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -32,6 +33,8 @@ import { sleep } from './screens/tools/Tools';
 import { restoreToken } from './screens/actions/persona';
 // import RNFS from 'react-native-fs';
 
+import RemotePushController from './screens/notifications/RemotePushController';
+
 const Stack = createStackNavigator();
 
 class App extends React.Component {
@@ -41,18 +44,12 @@ class App extends React.Component {
     this.state = {
       unsubscribe: null,
     };
+
   }
 
   async componentDidMount() {
     try {
       await sleep(4000);
-      const unsubscribe = messaging().onMessage(async remoteMessage => {
-        if (this.props.token.userToken !== null) {
-          this.onDisplayNotification(remoteMessage);
-        }
-      });
-      await this.setStateAsync({ unsubscribe: unsubscribe });
-
       let userToken = await AsyncStorage.getItem('user');
       this.props.restore(userToken);
     } catch (e) {
@@ -60,29 +57,10 @@ class App extends React.Component {
     }
   }
 
-  onDisplayNotification = async (remoteMessage) => {
-    // Create a channel
-    const channelId = await notifee.createChannel({
-      id: 'default',
-      name: 'Default channels',
-    });
-
-    // Display a notification   
-    await notifee.displayNotification({
-      title: remoteMessage.data.title,
-      subtitle: remoteMessage.data.subtitle,
-      body: remoteMessage.data.body,
-      android: {
-        channelId: channelId
-      }
-    });
-  }
-
   componentWillUnmount() {
-    if (this.state.unsubscribe != null) {
-      this.state.unsubscribe();
-    }
+    
   }
+
 
   render() {
     return (
@@ -130,6 +108,7 @@ class App extends React.Component {
             }
           </Stack.Navigator>
         </NavigationContainer>
+        <RemotePushController />
       </SafeAreaProvider>
     );
   }
@@ -149,5 +128,4 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
-//export default CrediCars;
 

@@ -4,7 +4,7 @@ const EXT_PRO = ".php";
 
 const EXT = EXT_PRO;
 
-export const LOGIN_PERSONA = URLDOMINIO + "api/login" + EXT;
+export const LOGIN_PERSONA = URLDOMINIO + "api/v2/login" + EXT;
 
 export const REGISTER_PERSONA = URLDOMINIO + "api/registrar" + EXT;
 
