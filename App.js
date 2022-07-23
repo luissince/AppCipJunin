@@ -1,7 +1,5 @@
 import * as React from 'react';
-import {Alert} from 'react-native';
-// import notifee from '@notifee/react-native';
-import messaging from '@react-native-firebase/messaging';
+import { Alert } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import {
@@ -32,8 +30,8 @@ import { connect } from 'react-redux';
 import { sleep } from './screens/tools/Tools';
 import { restoreToken } from './screens/actions/persona';
 // import RNFS from 'react-native-fs';
-
-import RemotePushController from './screens/notifications/RemotePushController';
+import NotifService from './notification/NotifService';
+// import RemotePushController from './screens/notifications/RemotePushController';
 
 const Stack = createStackNavigator();
 
@@ -42,8 +40,12 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      unsubscribe: null,
     };
+
+    this.notif = new NotifService(
+      this.onRegister.bind(this),
+      this.onNotif.bind(this),
+    );
 
   }
 
@@ -57,9 +59,20 @@ class App extends React.Component {
     }
   }
 
-  componentWillUnmount() {
-    
+  onRegister(token) {
+    this.setState({registerToken: token.token, fcmRegistered: true});
   }
+
+  onNotif(notif) {
+    // console.log(notif)
+    this.notif.localNotif();
+    if(notif.actions != undefined){
+      this.notif.cancelNotif();
+    }
+    console.log("ingreso...................")
+    // console.log(notif.actions);
+    // Alert.alert("title", notif.message);
+  } 
 
 
   render() {
@@ -108,7 +121,7 @@ class App extends React.Component {
             }
           </Stack.Navigator>
         </NavigationContainer>
-        <RemotePushController />
+        {/* <RemotePushController /> */}
       </SafeAreaProvider>
     );
   }

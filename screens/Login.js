@@ -265,7 +265,7 @@ class Login extends React.Component {
                 <TouchableOpacity
                   onPress={() => this.eventOpenCredenciales()}
                   style={css.marginVertical10}>
-                  <Text style={{ ...FONTS.h4, textDecorationLine: 'underline' }}>
+                  <Text style={{ ...FONTS.h4, color: COLORS.secondary,textDecorationLine: 'underline' }}>
                     Solicita tus credenciales
                   </Text>
                 </TouchableOpacity>
@@ -308,7 +308,7 @@ class Login extends React.Component {
 
                 <View style={{ alignItems: 'center', marginVertical: 5 }}>
                   <Text style={{ ...FONTS.h5, color: COLORS.grayDark }}>
-                    Versión 1.0.7
+                    Versión 1.0.6
                   </Text>
                 </View>
               </View>
@@ -398,6 +398,7 @@ const css = StyleSheet.create({
   },
   footerText: {
     ...FONTS.h4,
+    color: COLORS.secondary,
     fontWeight: 'bold'
   }
 });

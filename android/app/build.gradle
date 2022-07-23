@@ -134,8 +134,8 @@ android {
         applicationId "org.pe.cipjunin"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 7
-        versionName "1.0.7"
+        versionCode 3145733
+        versionName "1.0.5"
     }
     signingConfigs {
         release {

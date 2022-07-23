@@ -2,7 +2,7 @@ import PushNotification from 'react-native-push-notification';
 
 class NotificationHandler {
   onNotification(notification) {
-    console.log('NotificationHandler:', notification);
+    // console.log('NotificationHandler:', notification);
 
     if (typeof this._onNotification === 'function') {
       this._onNotification(notification);
@@ -10,7 +10,7 @@ class NotificationHandler {
   }
 
   onRegister(token) {
-    console.log('NotificationHandler:', token);
+    // console.log('NotificationHandler:', token);
 
     if (typeof this._onRegister === 'function') {
       this._onRegister(token);
@@ -63,8 +63,6 @@ PushNotification.configure({
     sound: true,
   },
 
-  senderID: '302234010340',
-  
   // Should the initial notification be popped automatically
   // default: true
   popInitialNotification: true,
